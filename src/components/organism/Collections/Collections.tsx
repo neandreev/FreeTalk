@@ -1,20 +1,20 @@
 import { FC, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks/hooks';
+import { useAppDispatch } from '../../../hooks';
 
-import {CollectionCard} from "../../molecules/CollectionCard";
+import { CollectionCard } from '../../molecules/CollectionCard';
 
 import { Pagination, message, Row, Col } from 'antd';
 
 import { getCollectionsAsync } from '../../../api/collectionsAPI';
 
-import {ICollection} from '../../../interfaces/collection';
+import { ICollection } from '../../../interfaces/collection';
 
 import styles from './Collections.module.css';
 
 interface IPagination {
-	limit: number,
-	index: number,
-	total?: number
+	limit: number;
+	index: number;
+	total?: number;
 }
 
 export const Collections: FC = () => {
@@ -23,7 +23,7 @@ export const Collections: FC = () => {
 	const [pagination, setPagination] = useState<IPagination>({
 		limit: 2,
 		index: 1,
-		total: 0
+		total: 0,
 	});
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ export const Collections: FC = () => {
 				const data = res as Array<ICollection>;
 				setPagination({
 					...pagination,
-					total: data.length
+					total: data.length,
 				});
 
 				setCollections(
@@ -55,19 +55,19 @@ export const Collections: FC = () => {
 		setPagination({
 			...pagination,
 			index: page,
-			limit: pageSize
+			limit: pageSize,
 		});
 	};
 
 	return (
-		<div className="page">
-			<Row justify="center">
+		<div className='page'>
+			<Row justify='center'>
 				<Col>
-					<h1 className="page__title">Collections of words for the dictionary</h1>
+					<h1 className='page__title'>Collections of words for the dictionary</h1>
 				</Col>
 			</Row>
-			<Row justify="center" gutter={16}>
-				{collections.map((item) =>
+			<Row justify='center' gutter={16}>
+				{collections.map((item) => (
 					<Col span={6} key={item.id}>
 						<CollectionCard
 							id={item.id}
@@ -76,9 +76,9 @@ export const Collections: FC = () => {
 							words={item.words}
 						/>
 					</Col>
-				)}
+				))}
 			</Row>
-			<Row justify="center" className={styles.pagination}>
+			<Row justify='center' className={styles.pagination}>
 				<Col>
 					<Pagination
 						total={pagination.total}

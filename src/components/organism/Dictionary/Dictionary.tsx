@@ -16,8 +16,7 @@ import {
 	selectSelectedRows,
 	setSelectedRows,
 } from '../../../features/dictionary/dictionarySlice';
-import { useAuth } from '../../../hooks/useAuth';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 
 export const Dictionary: FC = () => {
 	const auth = useAuth();

@@ -1,22 +1,20 @@
-import {FC, useEffect, useState} from 'react';
+import { FC, useEffect, useState } from 'react';
 
-import {Quiz} from '../Quiz';
+import { Quiz } from '../Quiz';
 
-import {useAppDispatch} from '../../../hooks/hooks';
-import {useAuth} from '../../../hooks/useAuth';
+import { useAppDispatch, useAuth } from '../../../hooks';
 import {
 	setQuestions,
 	setTrainingWords,
 } from '../../../features/training/trainingSlice';
 
-import {useGetUserWordsByUidQuery} from '../../../features/database/users';
+import { useGetUserWordsByUidQuery } from '../../../features/database/users';
 
 import _ from 'lodash';
 import firebase from 'firebase';
 
-import {ITrainingWord} from "../../../interfaces/trainingWord";
-import {IQuestion} from "../../../interfaces/question";
-
+import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IQuestion } from '../../../interfaces/question';
 
 const generateQuestions = (words: ITrainingWord[]) => {
 	const questions = words.map((word) => {
@@ -60,7 +58,7 @@ const selectWordsForTraining = (words: ITrainingWord[]) => {
 export const Training: FC = (props) => {
 	const auth = useAuth();
 	const user = auth!.user as firebase.User;
-	const {data: words, error, isLoading} = useGetUserWordsByUidQuery(user.uid);
+	const { data: words, error, isLoading } = useGetUserWordsByUidQuery(user.uid);
 	const dispatch = useAppDispatch();
 	const [dataPrepared, setDataPrepared] = useState(false);
 
@@ -74,13 +72,5 @@ export const Training: FC = (props) => {
 		}
 	}, [isLoading]);
 
-	return (
-		<>
-			{
-				!isLoading && dataPrepared
-					? <Quiz/>
-					: <span>loading</span>
-			}
-		</>
-	)
+	return <>{!isLoading && dataPrepared ? <Quiz /> : <span>loading</span>}</>;
 };

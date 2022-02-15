@@ -10,7 +10,7 @@ export interface ITranslateFormValues {
 
 export interface ICardTranslateRes {
 	title: string;
-	translateResponse: string;
+	translateResponse: string | undefined;
 	onAddWordToDictionary: () => void;
 }
 

@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks';
 
 import { Form, Input, Button } from 'antd';
 

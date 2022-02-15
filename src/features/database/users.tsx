@@ -6,6 +6,7 @@ interface IAddUserWords {
 	userId: string;
 	word: Omit<ITrainingWord, 'id'>;
 }
+
 interface IUpdateUserWords {
 	userId: string;
 	wordId: string;
@@ -28,15 +29,18 @@ export const usersApi = createApi({
 	}),
 	tagTypes: ['Words'],
 	endpoints: (builder) => ({
-		getUserWordsByUid: builder.query<ITrainingWord[], string>({
-			query: (uid) => `${uid}/words.json`,
+		getUserWordsByUid: builder.query<ITrainingWord[], string | undefined>({
+			query: (userId) => `${userId}/words.json`,
 			transformResponse: (response: IWordsObj) => {
-				const wordsEntries = Object.entries(response);
-				const wordsArray: ITrainingWord[] = wordsEntries.map(
-					([id, word]) => ({ ...word, id } as ITrainingWord)
-				);
-
-				return wordsArray;
+				if (_.isNull(response)) {
+					return [];
+				} else {
+					const wordsEntries = Object.entries(response);
+					const wordsArray: ITrainingWord[] = wordsEntries.map(
+						([id, word]) => ({ ...word, id } as ITrainingWord)
+					);
+					return wordsArray;
+				}
 			},
 			providesTags: ['Words'],
 		}),

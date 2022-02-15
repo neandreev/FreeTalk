@@ -1,7 +1,11 @@
 import _ from 'lodash';
 
-const API_KEY =
-	'dict.1.1.20200629T110424Z.820c51d0c3c6ce08.edfcf3c77862c014dce8158ae4581d8a842e9b30';
+const API_KEY = process.env.REACT_APP_TRANSLATE_API_KEY as string;
+
+interface IResponse {
+	ru: string;
+	en: string;
+}
 
 class ResponseWrapper {
 	word: string;
@@ -11,7 +15,7 @@ class ResponseWrapper {
 	timeToTrain: number;
 	completedTrains: number;
 
-	constructor(ru: string, en: string) {
+	constructor({ ru, en }: IResponse) {
 		this.word = _.capitalize(ru);
 		this.translation = _.capitalize(en);
 		this.category = 'Default';
@@ -42,13 +46,13 @@ class TranslateAPI {
 	getTranslateRuToEn = async (word: string) => {
 		const response = await this.getTranslate('ru', 'en', word);
 		const body = await response.json();
-		return { ...new ResponseWrapper(word, body.translate) };
+		return { ...new ResponseWrapper({ ru: word, en: body.translate }) };
 	};
 
 	getTranslateEnToRu = async (word: string) => {
 		const response = await this.getTranslate('en', 'ru', word);
 		const body = await response.json();
-		return { ...new ResponseWrapper(word, body.translate) };
+		return { ...new ResponseWrapper({ ru: body.translate, en: word }) };
 	};
 }
 

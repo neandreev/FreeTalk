@@ -1,5 +1,5 @@
 import { FC, useState, useCallback } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks';
 
 import { LoginModalForm } from '../LoginModalForm';
 import Logo from './assets/Logo.png';

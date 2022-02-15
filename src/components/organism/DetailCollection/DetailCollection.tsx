@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../../hooks/hooks';
+import { useAppDispatch } from '../../../hooks';
 
 import { ICollection } from '../../../interfaces/collection';
 import { ICollectionRow } from '../../../interfaces/collectionRow';
@@ -12,7 +12,11 @@ import { Table } from '../../molecules/Table';
 
 const rowSelection = {
 	onChange: (selectedRowKeys: React.Key[], selectedRows: ICollectionRow[]) => {
-		console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+		console.log(
+			`selectedRowKeys: ${selectedRowKeys}`,
+			'selectedRows: ',
+			selectedRows
+		);
 	},
 	getCheckboxProps: (record: ICollectionRow) => ({
 		word: record.word,
@@ -35,31 +39,32 @@ export const DetailCollection: FC = () => {
 			.catch((e) => {
 				message.error(e);
 			});
-		setCollection(collections.find(item => item.id === params.id) as ICollection);
+		setCollection(
+			collections.find((item) => item.id === params.id) as ICollection
+		);
 		const data = collection?.words.map((item) => {
-			return { key: item.id, word: item.word, translate: item.translation }
-		})
+			return { key: item.id, word: item.word, translate: item.translation };
+		});
 		if (data) {
 			setDataTable(data as Array<ICollectionRow>);
 		}
 	}, [collections, params, collection, dispatch]);
 
 	return (
-		<div className="page">
-			<Row justify="center">
+		<div className='page'>
+			<Row justify='center'>
 				<Col>
-					<h1 className="page__title">{collection?.title}</h1>
+					<h1 className='page__title'>{collection?.title}</h1>
 				</Col>
 			</Row>
-			<Row justify="center">
+			<Row justify='center'>
 				<Col>
 					<Radio.Group
 						onChange={({ target: { value } }) => {
 							setSelectionType(value);
 						}}
 						value={selectionType}
-					>
-					</Radio.Group>
+					></Radio.Group>
 					<Table
 						columns={columns}
 						data={dataTable || []}

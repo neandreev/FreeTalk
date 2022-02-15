@@ -1,6 +1,6 @@
 import { Table } from 'antd';
 import { FC } from 'React';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks';
 import { Dictionary } from '../../organism/Dictionary';
 
 export const DictionaryPage: FC = () => {
@@ -8,39 +8,39 @@ export const DictionaryPage: FC = () => {
 
 	const placeholderColumns = [
 		{
-			title: "Слово",
-			dataIndex: "word",
-			key: "word",
+			title: 'Слово',
+			dataIndex: 'word',
+			key: 'word',
 		},
 		{
-			title: "Перевод",
-			dataIndex: "translation",
-			key: "translation",
+			title: 'Перевод',
+			dataIndex: 'translation',
+			key: 'translation',
 		},
 		{
-			title: "Категория",
-			dataIndex: "category",
+			title: 'Категория',
+			dataIndex: 'category',
 		},
 		{
-			title: "Изучено",
-			dataIndex: "isLearned",
-			key: "isLearned",
-			width: "50px",
+			title: 'Изучено',
+			dataIndex: 'isLearned',
+			key: 'isLearned',
+			width: '50px',
 		},
 		{
 			title: '',
-			dataIndex: "action",
+			dataIndex: 'action',
 			key: 'action',
 		},
 	];
 
 	return (
 		<>
-			{
-				auth?.user
-				?	<Dictionary />
-				: <Table columns={placeholderColumns} rowSelection={{ type: "checkbox" }} />
-			}
+			{auth?.user ? (
+				<Dictionary />
+			) : (
+				<Table columns={placeholderColumns} rowSelection={{ type: 'checkbox' }} />
+			)}
 		</>
-	)
+	);
 };
