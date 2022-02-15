@@ -1,10 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import _ from 'lodash';
 import { ITrainingWord } from '../../interfaces/trainingWord';
 
+interface IAddUserWords {
+	userId: string;
+	word: Omit<ITrainingWord, 'id'>;
+}
 interface IUpdateUserWords {
 	userId: string;
 	wordId: string;
 	word: Partial<ITrainingWord>;
+}
+
+interface IDeleteUserWords {
+	userId: string;
+	wordId: string;
 }
 
 interface IWordsObj {
@@ -30,7 +40,7 @@ export const usersApi = createApi({
 			},
 			providesTags: ['Words'],
 		}),
-		addUserWord: builder.mutation<void, Partial<IUpdateUserWords>>({
+		addUserWord: builder.mutation<void, IAddUserWords>({
 			query: ({ word, userId }) => ({
 				url: `${userId}/words.json`,
 				method: 'POST',
@@ -44,13 +54,39 @@ export const usersApi = createApi({
 				method: 'PATCH',
 				body: word,
 			}),
+			async onQueryStarted({ word, wordId, userId }, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          usersApi.util.updateQueryData('getUserWordsByUid', userId, (draft) => {
+						const updateWord = _.find(draft, { id: wordId });
+            Object.assign(updateWord, word)
+          })
+        );
+        try {
+          await queryFulfilled
+        } catch {
+          patchResult.undo()
+				}
+			},
 			invalidatesTags: ['Words'],
 		}),
-		deleteUserWord: builder.mutation<void, Partial<IUpdateUserWords>>({
+		deleteUserWord: builder.mutation<void, IDeleteUserWords>({
 			query: ({ userId, wordId }) => ({
 				url: `${userId}/words/${wordId}.json`,
 				method: 'DELETE',
 			}),
+			async onQueryStarted({ userId, wordId }, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					usersApi.util.updateQueryData('getUserWordsByUid', userId, (draft) => {
+						const updatedWords = draft.filter((word) => word.id !== wordId );
+						return updatedWords;
+					})
+				);
+				try {
+					await queryFulfilled
+				} catch {
+					patchResult.undo()
+				}
+			},
 			invalidatesTags: ['Words'],
 		}),
 	}),
