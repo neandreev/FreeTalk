@@ -70,7 +70,7 @@ export const Translate: FC = () => {
 		setIsLoading(true);
 		setTranslateResponse(null);
 		const response = await translateAPI.getTranslate(fromLang, toLang, TranslateRequest);
-		if (response.translation) {
+		if (!!response.translation && !!response.word) {
 			response.imageURL = await findImageAPI.getImage(response.translation);
 			setTranslateResponse(response);
 		} else {
