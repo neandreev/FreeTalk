@@ -1,8 +1,8 @@
-import {Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
-import {routes} from './routes';
-import {PrivateRoute} from './privateRoute';
-import {PublicRoute} from './publicRoute';
+import { routes } from './routes';
+import { PrivateRoute } from './privateRoute';
+import { PublicRoute } from './publicRoute';
 
 export const AppRoutes = () => {
 	return (

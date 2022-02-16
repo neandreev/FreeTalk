@@ -1,5 +1,6 @@
 import { FC, useState, useCallback } from 'react';
 import { useAuth } from '../../../hooks';
+import { Link } from 'react-router-dom';
 
 import { LoginModalForm } from '../LoginModalForm';
 import Logo from './assets/Logo.png';
@@ -30,7 +31,9 @@ export const Header: FC = () => {
 	return (
 		<HeaderAnt>
 			<div className={style.logoWrapper}>
-				<img src={Logo} alt='FreeTalk' className={style.logo} />
+				<Link to="/">
+					<img src={Logo} alt='FreeTalk' className={style.logo} />
+				</Link>
 			</div>
 			<div className={style.headerAction}>
 				{user ? (
@@ -49,10 +52,17 @@ export const Header: FC = () => {
 			/>
 			{user && (
 				<Menu theme='dark' mode='horizontal' defaultSelectedKeys={[]}>
-					<Menu.Item key='1'>Словарь</Menu.Item>
-					<Menu.Item key='2'>Тренировка</Menu.Item>
-					<Menu.Item key='3'>Коллекции</Menu.Item>
-					<Menu.Item key='4'>Статистика</Menu.Item>
+					<Menu.Item key=''>
+						<Link to="/dictionary">Словарь</Link>
+					</Menu.Item>
+					<Menu.Item key='2'>
+						<Link to="/training">Тренировка</Link>
+					</Menu.Item>
+					<Menu.Item key='3'>
+						<Link to="/collections">
+							Коллекции
+						</Link>
+					</Menu.Item>
 				</Menu>
 			)}
 		</HeaderAnt>

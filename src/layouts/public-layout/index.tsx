@@ -1,13 +1,16 @@
-import {FC} from 'react';
+import { FC } from 'react';
 
-import {Layout} from 'antd';
-
-const {Content} = Layout;
+import { Layout } from 'antd';
+import { Header } from '../../components/organism/Header';
+const { Content } = Layout;
 
 export const AppPublicLayout: FC = ({children}) => {
 	return (
-		<Content className='page__layout layout__min-height'>
-			<div>{children}</div>
-		</Content>
+		<Layout className='layout'>
+			<Header />
+			<Content className='page__layout layout__min-height'>
+				<div>{children}</div>
+			</Content>
+		</Layout>
 	);
 };

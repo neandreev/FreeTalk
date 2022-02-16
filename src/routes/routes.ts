@@ -1,8 +1,9 @@
-import {Translate} from "../components/organism/Translate";
-import {Collections} from "../components/organism/Collections";
-import {DetailCollection} from "../components/organism/DetailCollection";
-import {TrainingPage} from "../components/pages/TrainingPage";
+import { Translate } from "../components/organism/Translate";
+import { Collections } from "../components/organism/Collections";
+import { DetailCollection } from "../components/organism/DetailCollection";
+import { TrainingPage } from "../components/pages/TrainingPage";
 import { DictionaryPage } from "../components/pages/DictionaryPage";
+import { NotFoundPage } from "../components/pages/NotFoundPage";
 
 export const routes = [
   {
@@ -34,5 +35,11 @@ export const routes = [
 		component: DictionaryPage,
 		name: 'dictionary',
 		isProtected: true,
+	},
+	{
+		path: '*',
+		component: NotFoundPage,
+		name: 'not-found',
+		isProtected: false
 	}
 ];
