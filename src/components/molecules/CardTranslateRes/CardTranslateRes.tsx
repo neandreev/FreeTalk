@@ -1,28 +1,27 @@
 import { FC, useCallback } from 'react';
 
-import { Card, Button } from 'antd';
+import { Card } from 'antd';
 
 import { ICardTranslateRes } from '../../../interfaces/translate';
 
-import style from './CardTranslateRes.module.css';
+import { FileAddOutlined } from '@ant-design/icons';
 
-export const CardTranslateRes: FC<ICardTranslateRes> = ({
-	title,
-	translateResponse,
-	onAddWordToDictionary,
-}) => {
+export const CardTranslateRes: FC<ICardTranslateRes> = (
+	{ ru, en, imageURL, onAddWordToDictionary }
+) => {
 	const handleAddWordToDictionary = useCallback(() => {
-		onAddWordToDictionary && onAddWordToDictionary();
+		onAddWordToDictionary && onAddWordToDictionary({ru: ru, en: en});
 	}, [onAddWordToDictionary]);
 
 	return (
-		<Card title={title} style={{ width: 300 }}>
-			<div className={style.wrapper}>
-				<p className={style.cardText}>{translateResponse || 'Перевод'}</p>
-				<Button disabled={!translateResponse} onClick={handleAddWordToDictionary}>
-					Добавить в словарь
-				</Button>
-			</div>
+		<Card
+			style={{ width: 240 }}
+			cover={<img alt={en} src={imageURL} />}
+			actions={[
+				<FileAddOutlined key='add' onClick={handleAddWordToDictionary} />]}
+		>
+			<p>EN: {en}</p>
+			<p>RU: {ru}</p>
 		</Card>
 	);
 };

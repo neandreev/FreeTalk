@@ -9,9 +9,10 @@ export interface ITranslateFormValues {
 }
 
 export interface ICardTranslateRes {
-	title: string;
-	translateResponse: string | undefined;
-	onAddWordToDictionary: () => void;
+	ru: string;
+	en: string;
+	imageURL: string;
+	onAddWordToDictionary: ({ru,en}: {ru:string, en:string}) => void;
 }
 
 export interface ITranslateResponse {

@@ -3,8 +3,9 @@ import _ from 'lodash';
 const API_KEY = process.env.REACT_APP_TRANSLATE_API_KEY as string;
 
 interface IResponse {
-	ru: string;
-	en: string;
+	word: string;
+	translate: string;
+	from: string;
 }
 
 class ResponseWrapper {
@@ -14,14 +15,16 @@ class ResponseWrapper {
 	isLearned: boolean;
 	timeToTrain: number;
 	completedTrains: number;
+	imageURL: string;
 
-	constructor({ ru, en }: IResponse) {
-		this.word = _.capitalize(ru);
-		this.translation = _.capitalize(en);
+	constructor({ word, translate, from }: IResponse) {
+		this.word = from === 'ru' ? _.capitalize(word): _.capitalize(translate);
+		this.translation = from === 'ru' ? _.capitalize(translate): _.capitalize(word);
 		this.category = 'Default';
 		this.isLearned = false;
 		this.timeToTrain = Date.now();
 		this.completedTrains = 0;
+		this.imageURL = '';
 	}
 }
 
@@ -32,8 +35,8 @@ class TranslateAPI {
 		this.API_KEY = API_KEY;
 	}
 
-	getTranslate = (from: string, to: string, word: string) => {
-		return fetch(
+	getTranslate = async (from: string, to: string, word: string) => {
+		const response = await fetch(
 			`https://reactmarathon-api.netlify.app/api/translate?text=${word}&lang=${from}-${to}`,
 			{
 				headers: {
@@ -41,18 +44,8 @@ class TranslateAPI {
 				},
 			}
 		);
-	};
-
-	getTranslateRuToEn = async (word: string) => {
-		const response = await this.getTranslate('ru', 'en', word);
 		const body = await response.json();
-		return { ...new ResponseWrapper({ ru: word, en: body.translate }) };
-	};
-
-	getTranslateEnToRu = async (word: string) => {
-		const response = await this.getTranslate('en', 'ru', word);
-		const body = await response.json();
-		return { ...new ResponseWrapper({ ru: body.translate, en: word }) };
+		return { ...new ResponseWrapper({ word: word, translate: body.translate, from: from }) };
 	};
 }
 

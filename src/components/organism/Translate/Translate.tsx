@@ -1,21 +1,19 @@
-import { FC, useCallback, useEffect, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { useAuth } from '../../../hooks';
-import {
-	useAddUserWordMutation,
-	useGetUserWordsByUidQuery,
-} from '../../../features/database/users';
+import { useAddUserWordMutation, useGetUserWordsByUidQuery }
+	from '../../../features/database/users';
 
 import { CardTranslateRes } from '../../molecules/CardTranslateRes';
-import { CardTranslateReq } from '../../molecules/CardTranslateReq/';
-
-import { Button, message } from 'antd';
-import { SwapOutlined } from '@ant-design/icons';
+import {Spin} from 'antd';
 
 import { translateAPI } from '../../../api/translateAPI';
+import { findImageAPI } from '../../../api/findImageAPI';
 import firebase from 'firebase';
-import _ from 'lodash';
 
 import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { TranslateReqForm } from '../../molecules/TranslateReqForm';
+
+import { message } from 'antd';
 
 import style from './Translate.module.css';
 
@@ -26,6 +24,7 @@ interface TranslateResponse {
 	isLearned: boolean;
 	timeToTrain: number;
 	completedTrains: number;
+	imageURL: string;
 }
 
 export const Translate: FC = () => {
@@ -33,86 +32,85 @@ export const Translate: FC = () => {
 	const user = auth?.user as firebase.User;
 	const [addWord] = useAddUserWordMutation();
 	const { data } = useGetUserWordsByUidQuery(user ? user.uid : undefined);
-	const [translateRequest, setTranslateRequest] = useState('');
 	const [translateResponse, setTranslateResponse] =
 		useState<TranslateResponse | null>(null);
-	const [isFetching, setIsFetching] = useState(false);
-	const [fromLang, setFromLang] = useState('RU');
-	const [toLang, setToLang] = useState('EN');
+	const [isLoading, setIsLoading] = useState(false);
+
 
 	const checkDuplicateWords = (
-		from: string,
-		word: string,
+		ru: string,
+		en: string,
 		data: ITrainingWord[] | [] | undefined
 	) => {
 		if (!data || data?.length === 0) {
 			return false;
 		} else {
-			const key = from === 'RU' ? 'word' : 'translation';
-			return !!data.find((element) => element[key] === _.capitalize(word));
+			return !!data.find((element) => element.word === ru);
 		}
 	};
 
-	const handleTranslateRequest = useCallback((word: string) => {
-		setTranslateRequest(word);
-	}, []);
 
-	const handleAddWordToDictionary = useCallback(() => {
+	const handleAddWordToDictionary = useCallback(({ en, ru }: { en: string, ru: string }) => {
 		if (!user) {
 			message.warning('Авторизуйтесь для добавления слова в словарь');
 			return;
 		}
 
-		if (checkDuplicateWords(fromLang, translateRequest, data)) {
+		if (checkDuplicateWords(ru, en, data)) {
 			message.warning('Такое слово уже есть в словаре');
 			return;
 		}
 
 		translateResponse && addWord({ word: translateResponse, userId: user.uid });
+
 		message.success('Добавлено новое слово');
 	}, [translateResponse, user]);
 
-	const handleSwapLang = useCallback(() => {
-		setFromLang(toLang);
-		setToLang(fromLang);
-		setTranslateRequest('');
+	const getTranslate = async (fromLang: string, toLang: string, TranslateRequest: string) => {
+		setIsLoading(true);
 		setTranslateResponse(null);
-	}, [toLang, fromLang]);
-
-	useEffect(() => {
-		async function getTranslate() {
-			setIsFetching(true);
-			const response =
-				fromLang === 'RU'
-					? await translateAPI.getTranslateRuToEn(translateRequest)
-					: await translateAPI.getTranslateEnToRu(translateRequest);
-			setTranslateResponse(response!);
-			setIsFetching(false);
+		const response = await translateAPI.getTranslate(fromLang, toLang, TranslateRequest);
+		if (response.translation) {
+			response.imageURL = await findImageAPI.getImage(response.translation);
+			setTranslateResponse(response);
+		} else {
+			message.warning('Перевод не найден. Попробуйте другое слово');
 		}
+		setIsLoading(false);
+	};
 
-		translateRequest.length !== 0 && getTranslate();
-	}, [translateRequest]);
+	const handleSubmitTranslateReqForm = useCallback(
+		({ TranslateDirection, TranslateRequest }) => {
+			const [fromLang, toLang] = TranslateDirection.toLowerCase().split('-');
+			getTranslate(fromLang, toLang, TranslateRequest);
+		},
+		[]);
 
 	return (
 		<div className={style.wrapper + ' ' + 'page'}>
-			<CardTranslateReq
-				title={fromLang}
-				onTranslateRequest={handleTranslateRequest}
-				isFetching={isFetching}
+			<h2>Время учить слова онлайн</h2>
+			<TranslateReqForm
+				onSubmitForm={handleSubmitTranslateReqForm}
 			/>
-			<Button
-				shape='circle'
-				onClick={handleSwapLang}
-				icon={<SwapOutlined />}
-				size='large'
-			/>
-			<CardTranslateRes
-				title={toLang}
-				translateResponse={
-					toLang === 'EN' ? translateResponse?.translation : translateResponse?.word
+			<div style={{ textAlign: 'center' }}>
+				{
+					isLoading && <Spin size="large" />
 				}
-				onAddWordToDictionary={handleAddWordToDictionary}
-			/>
+				{
+					translateResponse &&
+					(
+						<>
+							<h3>Перевод</h3>
+							<CardTranslateRes
+								en={translateResponse.translation}
+								ru={translateResponse.word}
+								imageURL={translateResponse.imageURL}
+								onAddWordToDictionary={handleAddWordToDictionary}
+							/>
+						</>
+					)
+				}
+			</div>
 		</div>
 	);
 };
