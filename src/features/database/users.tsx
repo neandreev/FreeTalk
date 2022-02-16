@@ -1,16 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import _ from 'lodash';
-import { ITrainingWord } from '../../interfaces/trainingWord';
+import { IWord } from '../../interfaces/word';
 
 interface IAddUserWords {
 	userId: string;
-	word: Omit<ITrainingWord, 'id'>;
+	word: Omit<IWord, 'id'>;
 }
 
 interface IUpdateUserWords {
 	userId: string;
 	wordId: string;
-	word: Partial<ITrainingWord>;
+	word: Partial<IWord>;
 }
 
 interface IDeleteUserWords {
@@ -19,7 +19,7 @@ interface IDeleteUserWords {
 }
 
 interface IWordsObj {
-	[id: string]: Partial<ITrainingWord>;
+	[id: string]: Partial<IWord>;
 }
 
 export const usersApi = createApi({
@@ -29,15 +29,15 @@ export const usersApi = createApi({
 	}),
 	tagTypes: ['Words'],
 	endpoints: (builder) => ({
-		getUserWordsByUid: builder.query<ITrainingWord[], string | undefined>({
+		getUserWordsByUid: builder.query<IWord[], string | undefined>({
 			query: (userId) => `${userId}/words.json`,
 			transformResponse: (response: IWordsObj) => {
 				if (_.isNull(response)) {
 					return [];
 				} else {
 					const wordsEntries = Object.entries(response);
-					const wordsArray: ITrainingWord[] = wordsEntries.map(
-						([id, word]) => ({ ...word, id } as ITrainingWord)
+					const wordsArray: IWord[] = wordsEntries.map(
+						([id, word]) => ({ ...word, id } as IWord)
 					);
 					return wordsArray;
 				}

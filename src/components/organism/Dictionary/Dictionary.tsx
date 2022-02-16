@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import { FC, Key, MouseEventHandler } from 'react';
 import { Button, Checkbox, Popconfirm, Space, Table, Tag } from 'antd';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
 import { ColumnsType } from 'antd/lib/table';
 import { WordCategory } from '../../atoms/WordCategory';
@@ -42,23 +42,23 @@ export const Dictionary: FC = () => {
 		value: word.category,
 	}));
 
-	const onFilter = (value: string | number | boolean, record: ITrainingWord) =>
+	const onFilter = (value: string | number | boolean, record: IWord) =>
 		record.category.indexOf(value as string) === 0;
 
 	const handleRemoveWord = (wordKey: Key) => {
-		const word = _.find(words, { id: wordKey }) as ITrainingWord;
+		const word = _.find(words, { id: wordKey }) as IWord;
 		const wordsUpdate = { wordId: word.id, userId: user.uid };
 		deleteWord(wordsUpdate);
 	};
 
-	const handleUpdateWord = (wordKey: Key, wordData: Partial<ITrainingWord>) => {
-		const word = _.find(words, { id: wordKey }) as ITrainingWord;
+	const handleUpdateWord = (wordKey: Key, wordData: Partial<IWord>) => {
+		const word = _.find(words, { id: wordKey }) as IWord;
 		const wordsUpdate = { wordId: word.id, userId: user.uid, word: wordData };
 		updateWord(wordsUpdate);
 	}
 
 	const handleLearnWord = (wordKey: Key, fixLearn?: boolean) => {
-		const word = _.find(words, { id: wordKey }) as ITrainingWord;
+		const word = _.find(words, { id: wordKey }) as IWord;
 		const wordsUpdate = {
 			wordId: word.id,
 			userId: user.uid,
@@ -81,7 +81,7 @@ export const Dictionary: FC = () => {
 		dispatch(setSelectedRows([]));
 	};
 
-	const columns: ColumnsType<ITrainingWord> = [
+	const columns: ColumnsType<IWord> = [
 		{
 			title: 'Слово',
 			dataIndex: 'word',
@@ -97,7 +97,7 @@ export const Dictionary: FC = () => {
 			dataIndex: 'category',
 			filters: filterCategories,
 			onFilter,
-			render: (text: string, record: ITrainingWord) => (
+			render: (text: string, record: IWord) => (
 				<WordCategory record={record} handleUpdate={handleUpdateWord} />
 			),
 		},
@@ -111,7 +111,7 @@ export const Dictionary: FC = () => {
 		{
 			title: 'Доступно для повторения с',
 			key: 'timeToTrain',
-			render: (text: string, record: ITrainingWord) => {
+			render: (text: string, record: IWord) => {
 				const timeToTrainFormat = dayjs(record.timeToTrain).format("DD-MM-YYYY");
 
 				const availableForTraining = record.timeToTrain < Date.now();
@@ -127,7 +127,7 @@ export const Dictionary: FC = () => {
 			title: 'Изучено',
 			key: 'isLearned',
 			width: '50px',
-			render: (text: string, record: ITrainingWord) => (
+			render: (text: string, record: IWord) => (
 				<Checkbox
 					checked={record.isLearned}
 					onClick={() => handleLearnWord(record.id)}
@@ -136,13 +136,13 @@ export const Dictionary: FC = () => {
 		},
 		{
 			key: 'actions',
-			render: (text: string, record: ITrainingWord) => (
+			render: (text: string, record: IWord) => (
 				<Button onClick={() => handleRemoveWord(record.id)}>Удалить</Button>
 			),
 		},
 	];
 
-	const rowSelection: TableRowSelection<ITrainingWord> = {
+	const rowSelection: TableRowSelection<IWord> = {
 		type: 'checkbox',
 		selectedRowKeys,
 		onChange: (selectedRowKeys) => {

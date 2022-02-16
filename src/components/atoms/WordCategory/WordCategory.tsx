@@ -1,11 +1,11 @@
 import { Input, Tag } from 'antd';
 import { FC, Key, useEffect, useRef, useState } from 'react';
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 import style from './WordCategory.module.css';
 
 interface IWordCategory {
-	record: ITrainingWord;
-	handleUpdate: (wordKey: Key, wordData: Partial<ITrainingWord>) => void;
+	record: IWord;
+	handleUpdate: (wordKey: Key, wordData: Partial<IWord>) => void;
 }
 
 export const WordCategory: FC<IWordCategory> = ({ record, handleUpdate }) => {
