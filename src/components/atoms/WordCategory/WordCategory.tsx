@@ -1,14 +1,14 @@
 import { Input, Tag } from 'antd';
 import { FC, Key, useEffect, useRef, useState } from 'react';
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 import style from './WordCategory.module.css';
 
 interface IWordCategory {
-	record: ITrainingWord;
-	handleUpdate: (wordKey: Key, wordData: Partial<ITrainingWord>) => void;
+	record: IWord;
+	handleUpdateWord: (wordKey: Key, wordData: Partial<IWord>) => void;
 }
 
-export const WordCategory: FC<IWordCategory> = ({ record, handleUpdate }) => {
+export const WordCategory: FC<IWordCategory> = ({ record, handleUpdateWord }) => {
 	const [inputVisible, setInputVisible] = useState(false);
 	const [inputValue, setInputValue] = useState(record.category);
 	const inputRef = useRef<Input>(null);
@@ -18,6 +18,15 @@ export const WordCategory: FC<IWordCategory> = ({ record, handleUpdate }) => {
 			inputRef.current.focus();
 		}
 	}, [inputVisible]);
+
+	const handleUpdate = () => {
+		if (inputValue !== "") {
+			handleUpdateWord(record.id, { category: inputValue });
+		} else {
+			setInputValue(record.category);
+		}
+		setInputVisible(false);
+	}
 
 	return (
 		<>
@@ -29,10 +38,8 @@ export const WordCategory: FC<IWordCategory> = ({ record, handleUpdate }) => {
 					value={inputValue}
 					className={style.wordCategory_input}
 					onChange={(e) => setInputValue(e.target.value)}
-					onPressEnter={() => {
-						handleUpdate(record.id, { category: inputValue });
-						setInputVisible(false);
-					}}
+					onBlur={handleUpdate}
+					onPressEnter={handleUpdate}
 				/>
 			) : (
 				<Tag
