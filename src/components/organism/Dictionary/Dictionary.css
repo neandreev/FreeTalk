@@ -1,0 +1,7 @@
+.dictionary .ant-table-checkbox-cell {
+	text-align: center;
+}
+
+.dictionary .ant-table-checkbox-cell span {
+	transform: matrix(1.4, 0, 0, 1.4, 0, 0);
+}

@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import firebase from 'firebase';
+import plural from "plural-ru";
 import { FC, Key, MouseEventHandler } from 'react';
-import { Button, Checkbox, Popconfirm, Space, Table, Tag } from 'antd';
+import { Button, Checkbox, Popconfirm, Space, Table } from 'antd';
 
 import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
@@ -19,12 +20,15 @@ import {
 } from '../../../features/dictionary/dictionarySlice';
 import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 
+import "./Dictionary.css";
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 dayjs.locale('ru');
 dayjs.extend(localizedFormat);
+
+const getWordsAmountPlural = (count: number) => plural(count, "%d слово", "%d слова", "%d слов");
 
 export const Dictionary: FC = () => {
 	const auth = useAuth();
@@ -98,19 +102,21 @@ export const Dictionary: FC = () => {
 			filters: filterCategories,
 			onFilter,
 			render: (text: string, record: IWord) => (
-				<WordCategory record={record} handleUpdate={handleUpdateWord} />
+				<WordCategory record={record} handleUpdateWord={handleUpdateWord} />
 			),
 		},
 		{
 			title: 'Кол-во повторений',
 			dataIndex: 'completedTrains',
+			width: '110px',
 			key: 'completedTrains',
 			sortDirections: ['descend', 'ascend'],
 			sorter: (a, b) => a.completedTrains - b.completedTrains,
 		},
 		{
-			title: 'Доступно для повторения с',
+			title: 'Следующее повторение',
 			key: 'timeToTrain',
+			width: '150px',
 			render: (text: string, record: IWord) => {
 				const timeToTrainFormat = dayjs(record.timeToTrain).format("DD-MM-YYYY");
 
@@ -119,14 +125,16 @@ export const Dictionary: FC = () => {
 				return (
 					!availableForTraining
 					? <span>{timeToTrainFormat}</span>
-					: <span>Уже!</span>
+					: <span style={{ color: '#4bb450' }}>{timeToTrainFormat}</span>
 				)
 			},
+			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
 		},
 		{
 			title: 'Изучено',
+			className: 'ant-table-checkbox-cell',
 			key: 'isLearned',
-			width: '50px',
+			width: '40px',
 			render: (text: string, record: IWord) => (
 				<Checkbox
 					checked={record.isLearned}
@@ -172,14 +180,18 @@ export const Dictionary: FC = () => {
 			>
 				Отметить выбранные слова изученными
 			</Button>
-
+			{
+				selectedRowKeys.length > 0
+				&& <span>Вы выбрали {getWordsAmountPlural(selectedRowKeys.length)}</span>
+			}
 		</Space>
 	);
 
 	return (
-		<div>
+		<div className="dictionary">
 			<Table
 				title={tableTitle}
+				loading={isLoading}
 				rowKey='id'
 				rowSelection={rowSelection}
 				dataSource={words}

@@ -6,4 +6,5 @@ export interface IWord {
 	isLearned: boolean;
 	timeToTrain: number;
 	completedTrains: number;
+	// imageURL: string;
 }
