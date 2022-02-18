@@ -14,7 +14,7 @@ import {
 } from '../../../features/training/trainingSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 
 import style from './QuizQuestions.module.css';
 import './QuizQuestions.css';
@@ -32,7 +32,7 @@ export const QuizQuestions: FC = () => {
 
 	const { wasAnswered } = currentQuestion;
 	const answerId: string = currentQuestion.correctAnswerId;
-	const correctWord = _.find(trainingWords, { id: answerId }) as ITrainingWord;
+	const correctWord = _.find(trainingWords, { id: answerId }) as IWord;
 	const [wrongAnswer1, wrongAnswer2, wrongAnswer3] =
 		currentQuestion.wrongAnswersIds;
 

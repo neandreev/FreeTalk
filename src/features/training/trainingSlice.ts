@@ -2,11 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import type {RootState} from "../../store/store";
 import { IQuestion } from '../../interfaces/question';
-import {ITrainingWord} from "../../interfaces/trainingWord";
+import {IWord} from "../../interfaces/word";
 
 interface ITrainingSlice {
   questions: IQuestion[];
-  trainingWords: ITrainingWord[],
+  trainingWords: IWord[],
   currentQuestionId: number;
   isCompleted: boolean;
   correctAnswers: number,
@@ -29,7 +29,7 @@ export const trainingSlice = createSlice({
     setQuestions: (state, action: PayloadAction<IQuestion[]>) => {
       state.questions = action.payload;
     },
-    setTrainingWords: (state, action: PayloadAction<ITrainingWord[]>) => {
+    setTrainingWords: (state, action: PayloadAction<IWord[]>) => {
       state.trainingWords = action.payload;
     },
     answerQuestion: (state, action: PayloadAction<{ wordId: string, isAnsweredCorrectly: boolean }>) => {

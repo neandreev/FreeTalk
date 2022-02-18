@@ -10,7 +10,7 @@ import { translateAPI } from '../../../api/translateAPI';
 import { findImageAPI } from '../../../api/findImageAPI';
 import firebase from 'firebase';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 import { TranslateReqForm } from '../../molecules/TranslateReqForm';
 
 import { message } from 'antd';
@@ -40,7 +40,7 @@ export const Translate: FC = () => {
 	const checkDuplicateWords = (
 		ru: string,
 		en: string,
-		data: ITrainingWord[] | [] | undefined
+		data: IWord[] | [] | undefined
 	) => {
 		if (!data || data?.length === 0) {
 			return false;

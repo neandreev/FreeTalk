@@ -8,7 +8,7 @@ import {
 } from '../../../features/training/trainingSlice';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 
 import style from './QuizButton.module.css';
 
@@ -23,7 +23,7 @@ export const QuizButton: FC<QuizButtonProps> = (props) => {
 	const dispatch = useAppDispatch();
 	const { trainingWords, currentQuestionId } = useAppSelector(selectTraining);
 
-	const word = _.find(trainingWords, { id: props.wordId }) as ITrainingWord;
+	const word = _.find(trainingWords, { id: props.wordId }) as IWord;
 	const isAnsweredCorrectly = props.type !== 'wrong';
 	const clickedButtonClasses = isAnsweredCorrectly
 		? style.quizButton_correct

@@ -7,13 +7,13 @@ import { selectTraining } from '../../../features/training/trainingSlice';
 
 import _ from 'lodash';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 
 import style from './QuizStats.module.css';
 import './QuizStats.css';
 
 interface IWordStat {
-	word: ITrainingWord;
+	word: IWord;
 	correct: boolean;
 }
 
@@ -37,7 +37,7 @@ export const QuizStats: FC = () => {
 		.map((question) => ({
 			word: _.find(trainingWords, {
 				id: question.correctAnswerId,
-			}) as ITrainingWord,
+			}) as IWord,
 			correct: question.wasAnsweredCorrectly,
 		}))
 		.map((stat) => (

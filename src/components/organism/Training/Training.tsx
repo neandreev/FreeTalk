@@ -13,10 +13,10 @@ import { useGetUserWordsByUidQuery } from '../../../features/database/users';
 import _ from 'lodash';
 import firebase from 'firebase';
 
-import { ITrainingWord } from '../../../interfaces/trainingWord';
+import { IWord } from '../../../interfaces/word';
 import { IQuestion } from '../../../interfaces/question';
 
-const generateQuestions = (words: ITrainingWord[]) => {
+const generateQuestions = (words: IWord[]) => {
 	const questions = words.map((word) => {
 		const correctAnswerId = word.id;
 		const wrongAnswersIds = _.shuffle(words)
@@ -37,7 +37,7 @@ const generateQuestions = (words: ITrainingWord[]) => {
 	return questions;
 };
 
-const selectWordsForTraining = (words: ITrainingWord[]) => {
+const selectWordsForTraining = (words: IWord[]) => {
 	const availableWordsForTraining = words.filter((word) => {
 		const timestamp = Date.now();
 		return word.timeToTrain <= timestamp;
