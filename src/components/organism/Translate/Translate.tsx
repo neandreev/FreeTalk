@@ -72,7 +72,7 @@ export const Translate: FC = () => {
 			return;
 		}
 
-		if (checkDuplicateWords(word.word, word.translation, data)) {
+		if (checkDuplicateWords(word.translation, word.word, data)) {
 			message.warning('Такое слово уже есть в словаре');
 			return;
 		}
@@ -86,7 +86,7 @@ export const Translate: FC = () => {
 		if (!data || data?.length === 0) {
 			return false;
 		} else {
-			return !!data.find((element) => element.word === ru);
+			return !!data.find((element) => element.translation === ru);
 		}
 	};
 
@@ -96,7 +96,7 @@ export const Translate: FC = () => {
 
 		if (!!response.translation && !!response.word) {
 			try {
-				const imageURL = await findImageAPI.getImage(response.translation, signal);
+				const imageURL = await findImageAPI.getImage(response.word, signal);
 				!!imageURL && (response.imageURL = imageURL);
 			} catch (e) {
 
@@ -122,7 +122,7 @@ export const Translate: FC = () => {
 			try {
 				translate = await translateAPI.getTranslate('en', 'ru', word, signal);
 				if (!!translate.translation && !!translate.word) {
-					imageURL = await findImageAPI.getImage(translate.translation, signal);
+					imageURL = await findImageAPI.getImage(translate.word, signal);
 					!!imageURL && (translate.imageURL = imageURL);
 					return translate;
 				}
@@ -138,7 +138,7 @@ export const Translate: FC = () => {
 			return null;
 		};
 
-		const addWords: string[] = await findHyponemesAPI.getHyponemes(word.translation, signal);
+		const addWords: string[] = await findHyponemesAPI.getHyponemes(word.word, signal);
 
 		return Promise.all<TWordWithoutID | null>(addWords.map(getTranslatePromise));
 	};

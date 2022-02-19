@@ -26,8 +26,8 @@ class TranslateAPI {
 		);
 		const body = await response.json();
 		const translate: TWordWithoutID = {
-			word: from === 'ru' ? _.capitalize(word): _.capitalize(body.translate),
-			translation: from === 'ru' ? _.capitalize(body.translate): _.capitalize(word),
+			word: from === 'en' ? _.capitalize(word): _.capitalize(body.translate),
+			translation: from === 'en' ? _.capitalize(body.translate): _.capitalize(word),
 			category:'Общее',
 			isLearned: false,
 			timeToTrain: Date.now(),

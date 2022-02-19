@@ -18,12 +18,12 @@ export const CardTranslateRes: FC<ICardTranslateRes> = (
 		<Col span={8}>
 			<Card
 				className='card-translate-res'
-				cover={<img className='card-cover' alt={word.translation} src={word.imageURL} />}
+				cover={<img className='card-cover' alt={word.word} src={word.imageURL} />}
 			>
 				<div className={style.cardBody}>
 					<div className={style.cardText}>
-						<p><strong>{word.translation}</strong></p>
-						<p>{word.word}</p>
+						<p><strong>{word.word}</strong></p>
+						<p>{word.translation}</p>
 					</div>
 					<div>
 						<Button onClick={handleAddWordToDictionary}>Добавить в словарь</Button>
