@@ -23,7 +23,7 @@ export const DetailCollectionWordCard: FC<IWord> = ({ id, word, translation, ima
 	}
 
 	const handleAddToDictionary = () => {
-		addWord({ word: { word, translation, imageURL, category, completedTrains, isLearned, timeToTrain  }, userId: user.uid });
+		addWord({ word: { word, translation, imageURL, category, completedTrains, isLearned, timeToTrain: Date.now()  }, userId: user.uid });
 		setIsAddedToDictionary(true);
 	};
 
