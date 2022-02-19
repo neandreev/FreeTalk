@@ -1,3 +1,3 @@
-import { Training } from "./Training";
+import { Training } from './Training';
 
 export { Training };

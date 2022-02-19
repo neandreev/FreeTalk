@@ -1,0 +1,14 @@
+.training {
+	display: flex;
+	height: auto;
+	justify-content: center;
+
+	background-color: white;
+}
+
+.trainingFlexbox {
+	display: flex;
+	flex-direction: column;
+	height: 90vh;
+	justify-content: center;
+}

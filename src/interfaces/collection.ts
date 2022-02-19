@@ -1,8 +1,8 @@
-import { IWord } from "./word";
+import { IWord } from './word';
 
 export interface ICollection {
-  id: string,
-  title: string,
-  coverUrl: string,
-  words: Array<IWord>
+	id: string;
+	title: string;
+	coverUrl: string;
+	words: Array<Omit<IWord, 'imageURL'>>;
 }

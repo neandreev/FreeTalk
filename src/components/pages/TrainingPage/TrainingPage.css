@@ -1,8 +1,0 @@
-.training-page {
-  display: flex;
-  justify-content: center;
-}
-
-.training-page > div {
-  height: 50vh;
-}

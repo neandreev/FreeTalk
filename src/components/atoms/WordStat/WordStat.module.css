@@ -5,14 +5,10 @@
   font-size: 20px;
 }
 
-.wrong {
-  composes: wordStat;
-
+.wordStat_wrong {
   color: #ff8a8a;
 }
 
-.correct {
-  composes: wordStat;
-
+.wordStat_correct {
   color: #a9da60;
 }

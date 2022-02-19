@@ -1,0 +1,17 @@
+.popover .ant-popover-inner-content {
+	padding: 3px;
+}
+
+.popover .ant-popover-inner {
+	border-radius: 10px;
+}
+
+.popover.popover_correct .ant-popover-inner,
+.popover.popover_correct .ant-popover-arrow-content {
+	background-color: #4bb450;
+}
+
+.popover.popover_wrong .ant-popover-inner,
+.popover.popover_wrong .ant-popover-arrow-content {
+	background-color: #f5564a;
+}

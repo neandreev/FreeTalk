@@ -1,11 +1,9 @@
-import { FC, useMemo } from 'react';
-
-import { AnswerInform } from '../../atoms/AnswerInform';
-import { QuizList } from '../QuizList';
-
-import { Card } from 'antd';
-
 import _ from 'lodash';
+import { FC, useMemo } from 'react';
+import { Card, Space } from 'antd';
+
+import { QuizList } from '../QuizList';
+import { QuizResponse } from '../../atoms/QuizResponse';
 
 import {
 	nextQuestion,
@@ -15,38 +13,31 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 
 import { IWord } from '../../../interfaces/word';
+import { ITrainingAnswer } from '../../../interfaces/training';
 
 import style from './QuizQuestions.module.css';
 import './QuizQuestions.css';
 
-interface IVariant {
-	wordId: string;
-	type: 'wrong' | 'correct';
-}
-
 export const QuizQuestions: FC = () => {
 	const dispatch = useAppDispatch();
-
-	const currentQuestion = useAppSelector(selectCurrentQuestion);
+	const { wasAnswered, correctAnswerId, wrongAnswersIds } = useAppSelector(
+		selectCurrentQuestion
+	);
 	const { currentQuestionId, trainingWords } = useAppSelector(selectTraining);
 
-	const { wasAnswered } = currentQuestion;
-	const answerId: string = currentQuestion.correctAnswerId;
-	const correctWord = _.find(trainingWords, { id: answerId }) as IWord;
-	const [wrongAnswer1, wrongAnswer2, wrongAnswer3] =
-		currentQuestion.wrongAnswersIds;
+	const correctWord = _.find(trainingWords, { id: correctAnswerId }) as IWord;
+	const [wrongAnswer1, wrongAnswer2, wrongAnswer3] = wrongAnswersIds;
 
 	const handleNextQuestionLink: React.MouseEventHandler = (e) => {
 		e.preventDefault();
-
 		dispatch(nextQuestion());
 	};
 
-	const variants: IVariant[] = [
-		{ wordId: answerId, type: 'correct' },
-		{ wordId: wrongAnswer1, type: 'wrong' },
-		{ wordId: wrongAnswer2, type: 'wrong' },
-		{ wordId: wrongAnswer3, type: 'wrong' },
+	const variants: ITrainingAnswer[] = [
+		{ wordId: correctAnswerId, isCorrect: true },
+		{ wordId: wrongAnswer1, isCorrect: false },
+		{ wordId: wrongAnswer2, isCorrect: false },
+		{ wordId: wrongAnswer3, isCorrect: false },
 	];
 
 	const shuffledVariants = useMemo(
@@ -55,23 +46,21 @@ export const QuizQuestions: FC = () => {
 	);
 
 	const QuestionTitle = (
-		<span>
-			Выберите перевод слова:{' '}
+		<Space>
+			<span>Выберите перевод слова:</span>
 			<span style={{ fontWeight: 'bold' }}>{correctWord.word}</span>
-		</span>
+		</Space>
 	);
 
 	return (
-		<Card className='quiz' title={QuestionTitle} style={{ width: 500 }}>
-			<QuizList variants={shuffledVariants} />
-			{wasAnswered ? (
-				<div className={style.quizFooter}>
-					<AnswerInform />
-					<span className={style.quizNextWord} onClick={handleNextQuestionLink}>
-						Next word
-					</span>
-				</div>
-			) : null}
-		</Card>
+		<div className={style.quizQuestions}>
+			<Card title={QuestionTitle}>
+				<QuizList variants={shuffledVariants} />
+				<QuizResponse
+					wasAnswered={wasAnswered}
+					handleNextQuestion={handleNextQuestionLink}
+				/>
+			</Card>
+		</div>
 	);
 };

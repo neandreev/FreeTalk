@@ -1,3 +1,3 @@
-import { QuizList } from "./QuizList";
+import { QuizList } from './QuizList';
 
 export { QuizList };

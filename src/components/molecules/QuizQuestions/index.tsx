@@ -1,3 +1,3 @@
-import { QuizQuestions } from "./QuizQuestions";
+import { QuizQuestions } from './QuizQuestions';
 
 export { QuizQuestions };

@@ -1,4 +1,6 @@
-.quiz .ant-card-head-title {
-  text-align: center;
-  font-size: 24px;
+.quiz {
+	background-color: #fff;
+
+	transition-property: all;
+	transition-duration: 0.3s;
 }

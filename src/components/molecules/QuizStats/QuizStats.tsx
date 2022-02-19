@@ -1,39 +1,20 @@
+import _ from 'lodash';
 import { FC } from 'react';
 
-import { Card, Col, Row } from 'antd';
+import { Card, Row } from 'antd';
 
 import { useAppSelector } from '../../../hooks';
 import { selectTraining } from '../../../features/training/trainingSlice';
 
-import _ from 'lodash';
+import { WordStat } from '../../atoms/WordStat';
+import { IQuestion } from '../../../interfaces/question';
 
 import { IWord } from '../../../interfaces/word';
 
-import style from './QuizStats.module.css';
 import './QuizStats.css';
 
-interface IWordStat {
-	word: IWord;
-	correct: boolean;
-}
-
-const WordStat: FC<IWordStat> = (props) => {
-	const { correct } = props;
-	const wordStyle = correct ? style['correct'] : style['wrong'];
-
-	return (
-		<Col className={wordStyle} span={12}>
-			<span>{props.word.word}</span>
-		</Col>
-	);
-};
-
-export const QuizStats: FC = () => {
-	const { trainingWords, questions, correctAnswers, completedQuestions } =
-		useAppSelector(selectTraining);
-	const title = `Отлично! Ты правильно перевел ${correctAnswers} из ${completedQuestions} слов!`;
-
-	const questionsWordsStats = questions
+const getWordsStats = (questions: IQuestion[], trainingWords: IWord[]) =>
+	questions
 		.map((question) => ({
 			word: _.find(trainingWords, {
 				id: question.correctAnswerId,
@@ -44,9 +25,18 @@ export const QuizStats: FC = () => {
 			<WordStat key={stat.word.id} word={stat.word} correct={stat.correct!} />
 		));
 
+export const QuizStats: FC = () => {
+	const { trainingWords, questions, correctAnswers, completedQuestions } =
+		useAppSelector(selectTraining);
+
+	const statsReactions = correctAnswers >= 5 ? 'Отлично!' : 'Упс!';
+	const title = `${statsReactions} Вы правильно перевели ${correctAnswers} из ${completedQuestions} слов!`;
+
+	const wordsStats = getWordsStats(questions, trainingWords);
+
 	return (
 		<Card className='quiz-stats' title={title}>
-			<Row>{questionsWordsStats}</Row>
+			<Row>{wordsStats}</Row>
 		</Card>
 	);
 };

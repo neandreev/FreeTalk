@@ -1,0 +1,8 @@
+.quiz .ant-card-head-title {
+	text-align: center;
+	font-size: 24px;
+}
+
+.quiz .ant-card-bordered {
+	border-radius: 10px;
+}
