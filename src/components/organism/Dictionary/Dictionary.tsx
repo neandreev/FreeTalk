@@ -90,13 +90,13 @@ export const Dictionary: FC = () => {
 	const columns: ColumnsType<IWord> = [
 		{
 			title: 'Слово',
-			dataIndex: 'word',
-			key: 'word',
+			dataIndex: 'translation',
+			key: 'translation',
 		},
 		{
 			title: 'Перевод',
-			dataIndex: 'translation',
-			key: 'translation',
+			dataIndex: 'word',
+			key: 'word',
 		},
 		{
 			title: 'Категория',

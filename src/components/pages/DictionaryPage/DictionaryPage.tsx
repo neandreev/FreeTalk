@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { FC } from 'React';
+import { FC } from 'react';
 import { Dictionary } from '../../organism/Dictionary';
 
 export const DictionaryPage: FC = () => (
