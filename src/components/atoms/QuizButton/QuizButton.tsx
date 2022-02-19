@@ -87,7 +87,7 @@ export const QuizButton: FC<IQuizButton> = (props) => {
 
 	const PopoverImage = (
 		<div className={style.image}>
-			<img src={word.imageURL} alt={word.translation} />
+			<img src={word.imageURL} alt={word.translation} style={{ height: '200px' }} />
 			<span className={style.word}>{word.word}</span>
 		</div>
 	);

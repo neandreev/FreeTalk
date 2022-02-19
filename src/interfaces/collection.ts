@@ -4,5 +4,5 @@ export interface ICollection {
 	id: string;
 	title: string;
 	coverUrl: string;
-	words: Array<Omit<IWord, 'imageURL'>>;
+	words: Array<IWord>;
 }

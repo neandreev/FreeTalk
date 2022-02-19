@@ -1,3 +1,3 @@
-import {DetailCollection} from "./DetailCollection";
+import { DetailCollection } from "./DetailCollection";
 
-export {DetailCollection}
+export { DetailCollection }

@@ -1,80 +1,99 @@
 import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '../../../hooks';
+import { useNavigate } from 'react-router-dom';
 
+import { DetailCollectionWordCard } from '../../molecules/DetailCollectionWordCard';
 import { ICollection } from '../../../interfaces/collection';
-import { ICollectionRow } from '../../../interfaces/collectionRow';
-import { columns } from './constants';
-import { getCollectionsAsync } from '../../../api/collectionsAPI';
+import { IPagination } from '../../../interfaces/pagination';
+import { IWord } from '../../../interfaces/word';
 
-import { Row, Col, Radio, message } from 'antd';
-import { Table } from '../../molecules/Table';
+import { Row, Col, Pagination, Button } from 'antd';
 
-const rowSelection = {
-	onChange: (selectedRowKeys: React.Key[], selectedRows: ICollectionRow[]) => {
-		console.log(
-			`selectedRowKeys: ${selectedRowKeys}`,
-			'selectedRows: ',
-			selectedRows
-		);
-	},
-	getCheckboxProps: (record: ICollectionRow) => ({
-		word: record.word,
-	}),
-};
-
-export const DetailCollection: FC = () => {
-	const dispatch = useAppDispatch();
-	const [collection, setCollection] = useState<ICollection>();
-	const [dataTable, setDataTable] = useState<Array<Object>>([]);
-	const [collections, setCollections] = useState<Array<ICollection>>([]);
+import styles from './DetailCollection.module.css';
+export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 	const params = useParams();
-	const [selectionType, setSelectionType] = useState<'checkbox'>('checkbox');
+	const navigate = useNavigate();
+	const [collections, setCollections] = useState<Array<ICollection>>([]);
+	const [selectedCollection, setSelectedCollection] = useState<ICollection>();
+	const [words, setWords] = useState<Array<IWord>>();
+	const [pagination, setPagination] = useState<IPagination>({
+		limit: 6,
+		index: 1,
+		total: 0,
+	});
 
 	useEffect(() => {
-		dispatch(getCollectionsAsync())
-			.then((res) => {
-				setCollections(res as Array<ICollection>);
-			})
-			.catch((e) => {
-				message.error(e);
-			});
-		setCollection(
-			collections.find((item) => item.id === params.id) as ICollection
-		);
-		const data = collection?.words.map((item) => {
-			return { key: item.id, word: item.word, translate: item.translation };
-		});
 		if (data) {
-			setDataTable(data as Array<ICollectionRow>);
+			setCollections(data as Array<ICollection>);
+			setSelectedCollection(
+				collections.find((item) => item.id === params.id) as ICollection
+			);
+			setPagination({
+				...pagination,
+				total: selectedCollection?.words.length,
+			});
+			setWords(
+				selectedCollection?.words
+					.slice(
+						(pagination.index - 1) * pagination.limit,
+						(pagination.index - 1) * pagination.limit + pagination.limit
+					)
+					.map((item) => {
+						return { ...item };
+					}))
 		}
-	}, [collections, params, collection, dispatch]);
+	}, [collections, params, selectedCollection, data, pagination.index]);
+
+	const handleChangePagination = (page: number, pageSize: number) => {
+		setPagination({
+			...pagination,
+			index: page,
+			limit: pageSize,
+		});
+	};
+
+	const handleBack = () => {
+		navigate(-1);
+	};
 
 	return (
-		<div className='page'>
-			<Row justify='center'>
-				<Col>
-					<h1 className='page__title'>{collection?.title}</h1>
-				</Col>
-			</Row>
-			<Row justify='center'>
-				<Col>
-					<Radio.Group
-						onChange={({ target: { value } }) => {
-							setSelectionType(value);
-						}}
-						value={selectionType}
-					></Radio.Group>
-					<Table
-						columns={columns}
-						data={dataTable || []}
-						rowSelection={{
-							type: selectionType,
-							...rowSelection,
-						}}
-					/>
-				</Col>
-			</Row>
-		</div>
+			<>
+				<Row>
+					<Col span={24}>
+						<h1 className={`page__title ${styles.title}`}>{selectedCollection?.title}</h1>
+						<hr />
+					</Col>
+				</Row>
+				<Row className={styles.cards} gutter={[16, 16]}>
+					{words?.map((item) => (
+						<Col key={item.word} span={8}>
+							<DetailCollectionWordCard
+								id={item.id}
+								word={item.word}
+								translation={item.translation}
+								imageURL={item.imageURL}
+								category={item.category}
+								completedTrains={item.completedTrains}
+								isLearned={item.isLearned}
+								timeToTrain={item.timeToTrain}
+							/>
+						</Col>
+					))}
+				</Row>
+				<Row className={styles.pagination} justify="space-between">
+					<Col>
+						<Pagination
+							total={pagination.total}
+							pageSize={pagination.limit}
+							current={pagination.index}
+							onChange={handleChangePagination}
+							hideOnSinglePage={false}
+						/>
+					</Col>
+					<Col>
+						<Button onClick={handleBack}>Вернуться к коллекциям</Button>
+					</Col>
+				</Row>
+			</>
 	);
 };

@@ -1,25 +1,20 @@
 import { FC } from 'react';
-import { useNavigate } from 'react-router-dom';
-
-import { Card } from 'antd';
+import { Link } from 'react-router-dom';
 
 import { ICollection } from '../../../interfaces/collection';
 
+import { Card } from 'antd';
+import styles from './CollectionCard.module.css';
+
 export const CollectionCard: FC<ICollection> = ({ id, title, coverUrl }) => {
-	const navigate = useNavigate();
-
-	const handleOnClick = () => {
-		navigate(`/collection-detail/${id}`);
-	};
-
 	return (
-		<div onClick={handleOnClick}>
-			<Card
-				hoverable
-				cover={<img alt="example" src={coverUrl} />}
-			>
-				{ title }
-			</Card>
-		</div>
+		<Card
+			cover={<img alt={title} src={coverUrl} />}
+		>
+			<div className={styles.info}>
+				<span>{ title }</span>
+				<Link to={`/collection-detail/${id}`}>Изучить слова</Link>
+			</div>
+		</Card>
 	);
 };

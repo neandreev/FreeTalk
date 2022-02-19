@@ -1,0 +1,22 @@
+.info {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.info span {
+	text-transform: uppercase;
+	font-weight: bold;
+	letter-spacing: 0.09em;
+	color: var(--black-text);
+}
+
+.info a {
+	text-transform: uppercase;
+	font-weight: 400;
+	color: var(--blue);
+}
+
+.info a:hover {
+	color: var(--black);
+}

@@ -1,0 +1,12 @@
+.title {
+	text-transform: uppercase;
+	color: var(--gray);
+}
+
+.cards {
+	margin-top: 15px;
+}
+
+.pagination {
+  margin-top: 20px;
+}

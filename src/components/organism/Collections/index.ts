@@ -1,3 +1,3 @@
-import {Collections} from "./Collections";
+import { Collections } from './Collections';
 
-export {Collections}
+export { Collections }

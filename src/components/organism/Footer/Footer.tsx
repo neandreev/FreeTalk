@@ -7,5 +7,5 @@ import style from './Footer.module.css';
 const { Footer: FooterAnt } = Layout;
 
 export const Footer: FC = () => {
-	return <FooterAnt className={style.footer}>©FreeTalk 2022</FooterAnt>;
+	return <FooterAnt className={style.footer} style={{ flexShrink: '0' }}>©FreeTalk 2022</FooterAnt>;
 };

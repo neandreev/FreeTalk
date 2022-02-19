@@ -1,40 +1,27 @@
 import { FC, useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../hooks';
 
 import { CollectionCard } from '../../molecules/CollectionCard';
-
-import { Pagination, message, Row, Col } from 'antd';
-
-import { getCollectionsAsync } from '../../../api/collectionsAPI';
-
 import { ICollection } from '../../../interfaces/collection';
+import { IPagination } from '../../../interfaces/pagination';
 
+import { Pagination, Row, Col } from 'antd';
 import styles from './Collections.module.css';
 
-interface IPagination {
-	limit: number;
-	index: number;
-	total?: number;
-}
-
-export const Collections: FC = () => {
-	const dispatch = useAppDispatch();
+export const Collections: FC<{ data: ICollection[] }> = ({ data }) => {
 	const [collections, setCollections] = useState<Array<ICollection>>([]);
 	const [pagination, setPagination] = useState<IPagination>({
-		limit: 2,
+		limit: 6,
 		index: 1,
 		total: 0,
 	});
 
 	useEffect(() => {
-		dispatch(getCollectionsAsync())
-			.then((res) => {
-				const data = res as Array<ICollection>;
+			if (data) {
 				setPagination({
 					...pagination,
 					total: data.length,
 				});
-
+	
 				setCollections(
 					data
 						.slice(
@@ -45,11 +32,8 @@ export const Collections: FC = () => {
 							return { ...item };
 						})
 				);
-			})
-			.catch((e) => {
-				message.error(e);
-			});
-	}, [dispatch, pagination.index]);
+			}
+	}, [data, pagination.index]);
 
 	const handleChangePagination = (page: number, pageSize: number) => {
 		setPagination({
@@ -60,34 +44,30 @@ export const Collections: FC = () => {
 	};
 
 	return (
-		<div className='page'>
-			<Row justify='center'>
-				<Col>
-					<h1 className='page__title'>Collections of words for the dictionary</h1>
-				</Col>
-			</Row>
-			<Row justify='center' gutter={16}>
-				{collections.map((item) => (
-					<Col span={6} key={item.id}>
-						<CollectionCard
-							id={item.id}
-							title={item.title}
-							coverUrl={item.coverUrl}
-							words={item.words}
+			<>
+				<Row justify='center' className={styles.cards} gutter={16}>
+					{collections.map((item) => (
+						<Col span={8} key={item.id}>
+							<CollectionCard
+								id={item.id}
+								title={item.title}
+								coverUrl={item.coverUrl}
+								words={item.words}
+							/>
+						</Col>
+					))}
+				</Row>
+				<Row className={styles.pagination}>
+					<Col span={24}>
+						<Pagination
+							total={pagination.total}
+							pageSize={pagination.limit}
+							current={pagination.index}
+							onChange={handleChangePagination}
+							hideOnSinglePage={false}
 						/>
 					</Col>
-				))}
-			</Row>
-			<Row justify='center' className={styles.pagination}>
-				<Col>
-					<Pagination
-						total={pagination.total}
-						pageSize={pagination.limit}
-						current={pagination.index}
-						onChange={handleChangePagination}
-					/>
-				</Col>
-			</Row>
-		</div>
+				</Row>
+			</>
 	);
 };

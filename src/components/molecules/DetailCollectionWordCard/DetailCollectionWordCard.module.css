@@ -1,0 +1,11 @@
+.content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.title {
+	margin-right: 10px;
+	font-weight: bold;
+	color: var(--green);
+}
