@@ -1,0 +1,26 @@
+.card-translate-res {
+	width: 240px;
+	text-align: center;
+}
+
+.card-translate-res  div.ant-card-cover {
+	box-sizing: border-box;
+	width: 238px;
+	height: 238px;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.card-translate-res .card-cover  {
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 100%;
+}
+
+.card-translate-res .ant-card-body {
+	padding: 15px;
+
+}

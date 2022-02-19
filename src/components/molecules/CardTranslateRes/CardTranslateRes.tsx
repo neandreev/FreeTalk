@@ -6,22 +6,24 @@ import { ICardTranslateRes } from '../../../interfaces/translate';
 
 import { FileAddOutlined } from '@ant-design/icons';
 
+import './CardTranslateRes.css'
+
 export const CardTranslateRes: FC<ICardTranslateRes> = (
-	{ ru, en, imageURL, onAddWordToDictionary }
+	{ word, onAddWordToDictionary }
 ) => {
 	const handleAddWordToDictionary = useCallback(() => {
-		onAddWordToDictionary && onAddWordToDictionary({ru: ru, en: en});
+		onAddWordToDictionary && onAddWordToDictionary(word);
 	}, [onAddWordToDictionary]);
 
 	return (
 		<Card
-			style={{ width: 240 }}
-			cover={<img alt={en} src={imageURL} />}
+			className='card-translate-res'
+			cover={<img className='card-cover' alt={word.translation} src={word.imageURL} />}
 			actions={[
 				<FileAddOutlined key='add' onClick={handleAddWordToDictionary} />]}
 		>
-			<p>EN: {en}</p>
-			<p>RU: {ru}</p>
+			<p>EN: {word.translation}</p>
+			<p>RU: {word.word}</p>
 		</Card>
 	);
 };

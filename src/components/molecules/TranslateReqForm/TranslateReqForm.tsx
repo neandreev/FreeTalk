@@ -6,6 +6,7 @@ const { Option } = Select;
 
 interface ITranslateReqForm {
 	onSubmitForm: ({}:ITranslateReqFormValue) => void;
+	disabled: boolean
 }
 
 interface ITranslateReqFormValue {
@@ -13,7 +14,7 @@ interface ITranslateReqFormValue {
 	TranslateDirection: string
 }
 
-export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm }) => {
+export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled }) => {
 	const [form] = Form.useForm();
 	const [directTranslate, setDirectTranslate] = useState('EN-RU');
 
@@ -24,7 +25,7 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm }) => {
 				TranslateDirection: values.TranslateDirection, TranslateRequest: values.TranslateRequest
 			});
 		},
-		[onSubmitForm]
+		[onSubmitForm, form]
 	);
 
 	const handleChangeTranslateDirection = useCallback((value: string) => {
@@ -34,7 +35,7 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm }) => {
 
 	useEffect(() => {
 		form.resetFields();
-	}, [directTranslate]);
+	}, [directTranslate, onSubmitForm]);
 
 	const prefixSelector = (
 		<Form.Item name='TranslateDirection' noStyle>
@@ -56,6 +57,7 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm }) => {
 				<Input
 					placeholder='Введите слово ...'
 					addonBefore={prefixSelector}
+					disabled={disabled}
 				/>
 			</Form.Item>
 			<Button htmlType='submit' />

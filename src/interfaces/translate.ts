@@ -1,18 +1,12 @@
-export interface ICardTranslateReq {
-	title: string;
-	isFetching: boolean;
-	onTranslateRequest: (word: string) => void;
-}
+import { IWord } from './word';
 
 export interface ITranslateFormValues {
 	TranslateRequest: string;
 }
 
 export interface ICardTranslateRes {
-	ru: string;
-	en: string;
-	imageURL: string;
-	onAddWordToDictionary: ({ru,en}: {ru:string, en:string}) => void;
+	word: Omit<IWord, 'id'>;
+	onAddWordToDictionary: (word: Omit<IWord, 'id'>) => void;
 }
 
 export interface ITranslateResponse {
