@@ -250,6 +250,7 @@ export const Translate: FC = () => {
 				{
 					!disabledForm &&
 					!addWordsError &&
+					!!addWords.length	&&
 					<Title level={5}>Посмотрите похожие слова</Title>
 				}
 				<div className={style.wordsWrapper}>
