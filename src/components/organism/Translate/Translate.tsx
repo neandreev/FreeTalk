@@ -14,7 +14,7 @@ import firebase from 'firebase';
 import { IWord } from '../../../interfaces/word';
 import { TranslateReqForm } from '../../molecules/TranslateReqForm';
 
-import { Empty, message } from 'antd';
+import { Typography, Empty, message } from 'antd';
 
 import style from './Translate.module.css';
 
@@ -42,6 +42,8 @@ type TGetMainTranslate = ({ fromLang, toLang, word }: ITranslateData) => Promise
 type TGetTranslateAddWords = (word: TWordWithoutID) => Promise<(TWordWithoutID | null)[]>;
 
 type THandleSubmitTranslateReqForm = ({ TranslateDirection, TranslateRequest }: ITranslateFormData) => void;
+
+const { Title } = Typography;
 
 export const Translate: FC = () => {
 	const controller = new AbortController();
@@ -189,8 +191,7 @@ export const Translate: FC = () => {
 	},[])
 
 	return (
-		<div className={style.wrapper + ' ' + 'page'}>
-			<h2>Время учить слова онлайн</h2>
+		<div className={style.wrapper}>
 			<TranslateReqForm
 				onSubmitForm={handleSubmitTranslateReqForm}
 				disabled={disabledForm}
@@ -198,28 +199,58 @@ export const Translate: FC = () => {
 
 			<div className={style.mainTranslate}>
 				{
-					isLoading && <Spin size='large' />
+					isLoading &&
+					(
+						<div className={style.loading}>
+							<Title level={5}>Ищем перевод ...</Title>
+							<Spin size='large' />
+						</div>
+					)
 				}
 				{
-					translateError && <Empty description={<span>Перевод не найден</span>} />
+					translateError &&
+					(
+						<div className={style.translateError}>
+							<Title level={5}>Сожалеем, перевод не найден </Title>
+							<Empty description={false}/>
+						</div>
+					)
 				}
 				{
 					translateResponse &&
-					(<>
+					(<div className={style.mainTranslateBody}>
+						<Title level={5}>Ваше слово:</Title>
 						<CardTranslateRes
 							word={translateResponse}
 							onAddWordToDictionary={handleAddWordToDictionary}
 						/>
-					</>)
+					</div>)
 				}
 			</div>
 
 			<div className={style.addTranslate}>
 				{
-					isLoadingAdd && <Spin size='large' />
+					isLoadingAdd &&
+					(
+						<div className={style.loading}>
+							<Title level={5}>Ищем дополнительные слова ...</Title>
+							<Spin size='large' />
+						</div>
+					)
 				}
 				{
-					addWordsError && <Empty description={<span>Дополнительные слова не найдены</span>} />
+					addWordsError &&
+					(
+						<div className={style.translateError}>
+							<Title level={5}>Сожалеем, похожие слова не найдены </Title>
+							<Empty description={false}/>
+						</div>
+					)
+				}
+				{
+					!disabledForm &&
+					!addWordsError &&
+					<Title level={5}>Посмотрите похожие слова</Title>
 				}
 				<div className={style.wordsWrapper}>
 					{

@@ -1,11 +1,10 @@
 import { FC, useCallback } from 'react';
 
-import { Card } from 'antd';
+import { Col, Card, Button } from 'antd';
 
 import { ICardTranslateRes } from '../../../interfaces/translate';
 
-import { FileAddOutlined } from '@ant-design/icons';
-
+import style from './CardTranslateRes.module.css'
 import './CardTranslateRes.css'
 
 export const CardTranslateRes: FC<ICardTranslateRes> = (
@@ -16,14 +15,21 @@ export const CardTranslateRes: FC<ICardTranslateRes> = (
 	}, [onAddWordToDictionary]);
 
 	return (
-		<Card
-			className='card-translate-res'
-			cover={<img className='card-cover' alt={word.translation} src={word.imageURL} />}
-			actions={[
-				<FileAddOutlined key='add' onClick={handleAddWordToDictionary} />]}
-		>
-			<p>EN: {word.translation}</p>
-			<p>RU: {word.word}</p>
-		</Card>
+		<Col span={8}>
+			<Card
+				className='card-translate-res'
+				cover={<img className='card-cover' alt={word.translation} src={word.imageURL} />}
+			>
+				<div className={style.cardBody}>
+					<div className={style.cardText}>
+						<p><strong>{word.translation}</strong></p>
+						<p>{word.word}</p>
+					</div>
+					<div>
+						<Button onClick={handleAddWordToDictionary}>Добавить в словарь</Button>
+					</div>
+				</div>
+			</Card>
+		</Col>
 	);
 };

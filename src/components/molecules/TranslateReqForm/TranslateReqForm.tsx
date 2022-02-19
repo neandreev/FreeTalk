@@ -56,11 +56,12 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled
 			<Form.Item name='TranslateRequest'>
 				<Input
 					placeholder='Введите слово ...'
+					size='large'
 					addonBefore={prefixSelector}
 					disabled={disabled}
 				/>
 			</Form.Item>
-			<Button htmlType='submit' />
+			<Button style={{display: 'none'}} htmlType='submit' />
 		</Form>
 	);
 };

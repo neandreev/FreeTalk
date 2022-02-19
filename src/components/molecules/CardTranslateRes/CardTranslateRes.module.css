@@ -1,5 +1,4 @@
-.wrapper {
-	height: 88px;
+.cardBody {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -10,4 +9,9 @@
 	margin: 0;
 	padding: 7px 0;
 	font-size: 14px;
+	text-align: center;
+}
+
+.cardText p{
+	margin: 0 0 7px 0;
 }
