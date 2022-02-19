@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import firebase from 'firebase';
-import plural from "plural-ru";
+import plural from 'plural-ru';
 import { FC, Key, MouseEventHandler } from 'react';
-import { Button, Checkbox, Popconfirm, Space, Table } from 'antd';
+import { Button, Checkbox, Col, Popconfirm, PageHeader, Row, Space, Table } from 'antd';
 
 import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
@@ -20,15 +20,17 @@ import {
 } from '../../../features/dictionary/dictionarySlice';
 import { useAppDispatch, useAppSelector, useAuth } from '../../../hooks';
 
-import "./Dictionary.css";
+import './Dictionary.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import { BarsOutlined } from '@ant-design/icons';
 
 dayjs.locale('ru');
 dayjs.extend(localizedFormat);
 
-const getWordsAmountPlural = (count: number) => plural(count, "%d слово", "%d слова", "%d слов");
+const getWordsAmountPlural = (count: number) =>
+	plural(count, '%d слово', '%d слова', '%d слов');
 
 export const Dictionary: FC = () => {
 	const auth = useAuth();
@@ -59,7 +61,7 @@ export const Dictionary: FC = () => {
 		const word = _.find(words, { id: wordKey }) as IWord;
 		const wordsUpdate = { wordId: word.id, userId: user.uid, word: wordData };
 		updateWord(wordsUpdate);
-	}
+	};
 
 	const handleLearnWord = (wordKey: Key, fixLearn?: boolean) => {
 		const word = _.find(words, { id: wordKey }) as IWord;
@@ -104,6 +106,7 @@ export const Dictionary: FC = () => {
 			render: (text: string, record: IWord) => (
 				<WordCategory record={record} handleUpdateWord={handleUpdateWord} />
 			),
+			sorter: (a, b) => a.category.localeCompare(b.category),
 		},
 		{
 			title: 'Кол-во повторений',
@@ -118,15 +121,15 @@ export const Dictionary: FC = () => {
 			key: 'timeToTrain',
 			width: '150px',
 			render: (text: string, record: IWord) => {
-				const timeToTrainFormat = dayjs(record.timeToTrain).format("DD-MM-YYYY");
+				const timeToTrainFormat = dayjs(record.timeToTrain).format('DD-MM-YYYY');
 
 				const availableForTraining = record.timeToTrain < Date.now();
-				
-				return (
-					!availableForTraining
-					? <span>{timeToTrainFormat}</span>
-					: <span style={{ color: '#4bb450' }}>{timeToTrainFormat}</span>
-				)
+
+				return !availableForTraining ? (
+					<span>{timeToTrainFormat}</span>
+				) : (
+					<span style={{ color: '#4bb450' }}>{timeToTrainFormat}</span>
+				);
 			},
 			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
 		},
@@ -161,15 +164,12 @@ export const Dictionary: FC = () => {
 	const tableTitle = () => (
 		<Space>
 			<Popconfirm
-				title="Вы действительно хотите удалить выбранные слова?"
+				title='Вы действительно хотите удалить выбранные слова?'
 				onConfirm={handleRemoveMultipleWords}
-				okText="Да"
-				cancelText="Нет"
+				okText='Да'
+				cancelText='Нет'
 			>
-				<Button
-					type='primary'
-					disabled={selectedRowKeys.length === 0}
-				>
+				<Button type='primary' disabled={selectedRowKeys.length === 0}>
 					Удалить выбранные слова
 				</Button>
 			</Popconfirm>
@@ -180,23 +180,28 @@ export const Dictionary: FC = () => {
 			>
 				Отметить выбранные слова изученными
 			</Button>
-			{
-				selectedRowKeys.length > 0
-				&& <span>Вы выбрали {getWordsAmountPlural(selectedRowKeys.length)}</span>
-			}
+			{selectedRowKeys.length > 0 && (
+				<span>Вы выбрали {getWordsAmountPlural(selectedRowKeys.length)}</span>
+			)}
 		</Space>
 	);
 
 	return (
-		<div className="dictionary">
-			<Table
-				title={tableTitle}
-				loading={isLoading}
-				rowKey='id'
-				rowSelection={rowSelection}
-				dataSource={words}
-				columns={columns}
-			/>
+		<div className='dictionary'>
+			<Row>
+				<Col span={20} offset={2}>
+					<PageHeader title="Словарь" extra={<BarsOutlined />} />
+					<Table
+						bordered={true}
+						title={tableTitle}
+						loading={isLoading}
+						rowKey='id'
+						rowSelection={rowSelection}
+						dataSource={words}
+						columns={columns}
+					/>
+				</Col>
+			</Row>
 		</div>
 	);
 };

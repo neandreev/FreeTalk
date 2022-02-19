@@ -1,3 +1,7 @@
+.dictionary {
+	background-color: white;
+}
+
 .dictionary .ant-table-checkbox-cell {
 	text-align: center;
 }
