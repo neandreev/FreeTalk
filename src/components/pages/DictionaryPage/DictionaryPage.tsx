@@ -1,5 +1,5 @@
 import { Table } from 'antd';
-import { FC } from 'React';
+import { FC } from 'react';
 import { useAuth } from '../../../hooks';
 import { Dictionary } from '../../organism/Dictionary';
 
