@@ -3,7 +3,7 @@ import { useAuth } from '../../../hooks';
 import { Link, useLocation } from 'react-router-dom';
 
 import { LoginModalForm } from '../LoginModalForm';
-import Logo from './assets/Logo.png';
+import {ReactComponent as FreeTalk} from './assets/FreeTalk.svg';
 
 import { Layout, Menu, Button } from 'antd';
 
@@ -43,7 +43,7 @@ export const Header: FC = () => {
 			<div className='container'>
 				<div className={style.logoWrapper}>
 					<Link to='/' >
-						<img src={Logo} alt='FreeTalk' className={style.logo} />
+            <FreeTalk height='63px' widht='200px'/>
 					</Link>
 				</div>
 				<div className={style.headerAction}>
