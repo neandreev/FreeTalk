@@ -5,43 +5,51 @@ import { Card } from 'antd';
 import styles from './Description.module.css';
 import './Description.css';
 
+const DESC_DATA = [
+	{
+		title: 'Расширенный перевод',
+		description: 'Подберем похожие слова дополнительно к основному переводу.',
+		imgURL: 'https://englex.ru/app/uploads/books-in-english-1.png',
+		imgALT: 'translate',
+	},
+	{
+		title: 'Онлайн словарь',
+		description: 'Персональный словарь всегда с вами и доступен с любого устройства.',
+		imgURL: 'https://englex.ru/app/uploads/how-to-choose-english-dictionary.png',
+		imgALT: 'dictionary',
+	},
+	{
+		title: 'Тренировки',
+		description: 'Поможем вам быстро выучить новые слова и повторить старые.',
+		imgURL: 'https://englex.ru/app/uploads/english-for-trainers-and-athletes.png',
+		imgALT: 'training',
+	},
+	{
+		title: 'Коллекции',
+		description: 'Мы собрали для вас слова по темам и регулярно их обновляем.',
+		imgURL: 'https://englex.ru/app/uploads/surround-yourself-with-english.png',
+		imgALT: 'collections',
+	},
+]
+
+
 export const Description: FC = () => {
 	return (
 		<div className={styles.description}>
 			<h3 className={`page__title ${styles.title}`}>Изучайте английский вместе с FreeTalk</h3>
 			<div className={styles.cardsWrapper}>
-				<Card
-					cover={<img className='card-cover' alt='translate'
-											src='https://englex.ru/app/uploads/books-in-english-1.png' />}
-					className={`card-description ${styles.card}`}
-				>
-					<h3 className={styles.cardTitle}>Расширенный перевод</h3>
-					<p className={styles.cardDescription}>Подберем похожие слова дополнительно к основному переводу.</p>
-				</Card>
-				<Card
-					cover={<img className='card-cover' alt='dictionary'
-											src='https://englex.ru/app/uploads/how-to-choose-english-dictionary.png' />}
-					className={`card-description ${styles.card}`}
-				>
-					<h3 className={styles.cardTitle}>Онлайн словарь</h3>
-					<p className={styles.cardDescription}>Персональный словарь всегда с вами и доступен с любого устройства.</p>
-				</Card>
-				<Card
-					cover={<img className='card-cover' alt='training'
-											src='https://englex.ru/app/uploads/english-for-trainers-and-athletes.png' />}
-					className={`card-description ${styles.card}`}
-				>
-					<h3 className={styles.cardTitle}>Тренировки</h3>
-					<p className={styles.cardDescription}>Поможем вам быстро выучить новые слова и повторить старые.</p>
-				</Card>
-				<Card
-					cover={<img className='card-cover' alt='collections'
-											src='https://englex.ru/app/uploads/surround-yourself-with-english.png' />}
-					className={`card-description ${styles.card}`}
-				>
-					<h3 className={styles.cardTitle}>Коллекции</h3>
-					<p className={styles.cardDescription}>Мы собрали для вас слова по темам и регулярно их обновляем.</p>
-				</Card>
+				{
+					DESC_DATA.map((item, index) => (
+						<Card
+							key={index}
+							cover={<img className='card-cover' alt={item.imgALT} src={item.imgURL} />}
+							className={`card-description ${styles.card}`}
+						>
+							<h3 className={styles.cardTitle}>{item.title}</h3>
+							<p className={styles.cardDescription}>{item.description}</p>
+						</Card>
+					))
+				}
 			</div>
 		</div>
 	);

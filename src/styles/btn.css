@@ -80,3 +80,34 @@
 	background: var(--dark-text);
 	color: white;
 }
+
+.app-btn._blue {
+	max-width: 380px;
+	background: var(--blue);
+	border-radius: 4px;
+}
+
+.app-btn._blue:hover {
+	background: var(--dark-text);
+	color: white;
+}
+
+.app-btn._blue:disabled {
+	background: var(--button-blue-disabled);
+	color: white;
+}
+
+.app-btn._blue:disabled:hover {
+	background: var(--button-blue-disabled);
+	color: white;
+}
+
+.app-btn._blue:focus {
+	background: var(--dark-text);
+	color: white;
+}
+
+.app-btn._blue:active {
+	background: var(--dark-text);
+	color: white;
+}

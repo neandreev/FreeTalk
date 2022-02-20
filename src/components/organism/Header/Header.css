@@ -1,0 +1,25 @@
+.header-navigation.ant-menu {
+	background: none;
+}
+
+.header-navigation.ant-menu-horizontal {
+	border-bottom: none;
+}
+
+.header-navigation.ant-menu-horizontal > .ant-menu-item a {
+	color: var(--blue);
+}
+
+.header-navigation.ant-menu-horizontal > .ant-menu-item a:hover {
+	color: var(--dark-text);
+}
+
+.header-navigation.ant-menu-horizontal:not(.ant-menu-dark) >
+.ant-menu-item-selected::after {
+	border-bottom: 2px solid var(--blue);
+}
+
+.header-navigation.ant-menu-horizontal:not(.ant-menu-dark) >
+.ant-menu-item:hover:after {
+	border-bottom: 2px solid var(--dark-text);
+}

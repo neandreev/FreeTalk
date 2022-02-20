@@ -16,7 +16,7 @@ import { TranslateReqForm } from '../../molecules/TranslateReqForm';
 
 import { Typography, Empty, message } from 'antd';
 
-import style from './Translate.module.css';
+import styles from './Translate.module.css';
 
 interface ITranslateFormData {
 	TranslateDirection: string,
@@ -27,6 +27,10 @@ interface ITranslateData {
 	fromLang: string,
 	toLang: string,
 	word: string,
+}
+
+interface ITranslate {
+	onStartTranslate: () => void
 }
 
 type TWordWithoutID = Omit<IWord, 'id'>;
@@ -45,7 +49,7 @@ type THandleSubmitTranslateReqForm = ({ TranslateDirection, TranslateRequest }: 
 
 const { Title } = Typography;
 
-export const Translate: FC = () => {
+export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 	const controller = new AbortController();
 	const signal = controller.signal;
 
@@ -117,8 +121,6 @@ export const Translate: FC = () => {
 			let translate;
 			let imageURL;
 
-			setIsLoadingAdd(true)
-
 			try {
 				translate = await translateAPI.getTranslate('en', 'ru', word, signal);
 				if (!!translate.translation && !!translate.word) {
@@ -172,12 +174,15 @@ export const Translate: FC = () => {
 		({ TranslateDirection, TranslateRequest }) => {
 			const [fromLang, toLang] = TranslateDirection.toLowerCase().split('-');
 
+			onStartTranslate && onStartTranslate();
+
 			setTranslateError(false);
 			setIsLoading(true);
 			setTranslateResponse(null);
 			setAddWordsError(false);
 			setAddWords([]);
 			setAddWordsError(false);
+			setIsLoadingAdd(true);
 
 			getTranslate(fromLang, toLang, TranslateRequest);
 		},
@@ -191,35 +196,34 @@ export const Translate: FC = () => {
 	},[])
 
 	return (
-		<div className={style.wrapper}>
+		<div className={styles.wrapper}>
 			<TranslateReqForm
 				onSubmitForm={handleSubmitTranslateReqForm}
 				disabled={disabledForm}
 			/>
-
-			<div className={style.mainTranslate}>
+			<div className={styles.mainTranslate}>
 				{
 					isLoading &&
 					(
-						<div className={style.loading}>
-							<Title level={5}>Ищем перевод ...</Title>
-							<Spin size='large' />
+						<div className={styles.loading}>
+							<h3 className={styles.title}>Ищем перевод ...</h3>
+							<Spin className={styles.spin} size='large'/>
 						</div>
 					)
 				}
 				{
 					translateError &&
 					(
-						<div className={style.translateError}>
-							<Title level={5}>Сожалеем, перевод не найден </Title>
+						<div className={styles.translateError}>
+							<h3 className={styles.title}>Сожалеем, перевод не найден</h3>
 							<Empty description={false}/>
 						</div>
 					)
 				}
 				{
 					translateResponse &&
-					(<div className={style.mainTranslateBody}>
-						<Title level={5}>Ваше слово:</Title>
+					(<div className={styles.mainTranslateBody}>
+						<h3 className={styles.title}>Ваше слово:</h3>
 						<CardTranslateRes
 							word={translateResponse}
 							onAddWordToDictionary={handleAddWordToDictionary}
@@ -228,21 +232,21 @@ export const Translate: FC = () => {
 				}
 			</div>
 
-			<div className={style.addTranslate}>
+			<div className={styles.addTranslate}>
 				{
 					isLoadingAdd &&
 					(
-						<div className={style.loading}>
-							<Title level={5}>Ищем дополнительные слова ...</Title>
-							<Spin size='large' />
+						<div className={styles.loading}>
+							<h3 className={styles.title}>Ищем дополнительные слова ...</h3>
+							<Spin className={styles.spin} size='large'/>
 						</div>
 					)
 				}
 				{
 					addWordsError &&
 					(
-						<div className={style.translateError}>
-							<Title level={5}>Сожалеем, похожие слова не найдены </Title>
+						<div className={styles.translateError}>
+							<h3 className={styles.title}>Сожалеем, похожие слова не найдены</h3>
 							<Empty description={false}/>
 						</div>
 					)
@@ -251,9 +255,9 @@ export const Translate: FC = () => {
 					!disabledForm &&
 					!addWordsError &&
 					!!addWords.length	&&
-					<Title level={5}>Посмотрите похожие слова</Title>
+					<h3 className={styles.title}>Посмотрите похожие слова:</h3>
 				}
-				<div className={style.wordsWrapper}>
+				<div className={styles.wordsWrapper}>
 					{
 						addWords.map((item, index) => {
 							if (!!item) {

@@ -3,7 +3,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 25px;
+	gap: 20px;
 }
 
 .mainTranslate {
@@ -30,9 +30,18 @@
 }
 
 .loading {
+	position: relative;
+	height: 320px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.loading .spin {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .mainTranslateBody {
@@ -45,4 +54,11 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+.title {
+	margin-bottom: 15px;
+	font-size: 20px;
+	letter-spacing: 0.04em;
+	color: var(--black);
 }
