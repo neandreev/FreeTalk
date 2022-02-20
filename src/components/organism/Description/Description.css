@@ -1,0 +1,31 @@
+.card-description.ant-card{
+	padding-top: 15px;
+}
+
+.card-description .ant-card-body {
+	padding: 15px;
+}
+
+.card-description  div.ant-card-cover {
+	box-sizing: border-box;
+	width: 100%;
+	height: 130px;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.card-description img.card-cover {
+	width: auto;
+	height: 100%;
+	max-height: none;
+}
+
+.card-description .card-cover  {
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	max-height: 100%;
+}
