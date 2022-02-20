@@ -91,7 +91,7 @@ export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 						/>
 					</Col>
 					<Col>
-						<Button onClick={handleBack}>Вернуться к коллекциям</Button>
+						<Button className={`app-btn ${styles.btnCollections}`} onClick={handleBack}>Вернуться к коллекциям</Button>
 					</Col>
 				</Row>
 			</>

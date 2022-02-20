@@ -24,3 +24,50 @@ hr {
 	margin-top: 0;
 	color: var(--middle-gray);
 }
+
+.ant-card.ant-card-bordered {
+	border-radius: 7px;
+}
+
+.ant-pagination-prev,
+.ant-pagination-item,
+.ant-pagination-next {
+  width: 36px;
+  height: 36px;
+  margin-right: 12px;
+}
+
+.ant-pagination-item,
+.ant-pagination-item-link {
+  border: 0!important;
+  border-radius: 4px!important;
+  background-color: var(--step-bg)!important;
+}
+
+.ant-pagination-item-active {
+  background-color: var(--blue)!important;
+}
+
+.ant-pagination-item a {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 30px;
+  color: var(--light-text)!important;
+}
+
+.ant-pagination-item-active a {
+  color: #fff!important;
+}
+
+.ant-pagination-item-link svg {
+  color: var(--light-text);
+}
+
+.ant-pagination-disabled .ant-pagination-item-link svg {
+  color: var(--pagination-disabled);
+}

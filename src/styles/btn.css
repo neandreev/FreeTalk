@@ -1,0 +1,82 @@
+.app-btn {
+	background: var(--blue);
+	border-radius: 4px;
+	min-height: 36px;
+	font-weight: bold;
+	font-size: 12px;
+	line-height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	max-width: 150px;
+	padding: 6px 24px;
+	letter-spacing: 0.06em;
+	border: none;
+	max-width: 300px;
+	text-transform: uppercase;
+	transition: color .25s ease, background-color .25s;
+}
+
+.app-btn:disabled {
+	background-color: var(--button-blue-disabled)!important;
+	color: #fff;
+}
+
+.app-btn:disabled:hover {
+	background-color: var(--button-blue-disabled)!important;
+	color: #fff;
+}
+
+.app-btn:hover {
+	background: var(--dark-text);
+	color: white;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+}
+
+.app-btn:focus {
+	background: var(--blue);
+	color: white;
+	border: none;
+}
+
+.app-btn:active {
+	background: var(--blue);
+	color: white;
+	border: none;
+}
+
+.app-btn._green {
+	max-width: 380px;
+	background: var(--green);
+	border-radius: 4px;
+}
+
+.app-btn._green:hover {
+	background: var(--dark-text);
+	color: white;
+}
+
+.app-btn._green:disabled {
+	background: var(--button-green-disabled);
+	color: white;
+}
+
+.app-btn._green:disabled:hover {
+	background: var(--button-green-disabled);
+	color: white;
+}
+
+.app-btn._green:focus {
+	background: var(--dark-text);
+	color: white;
+}
+
+.app-btn._green:active {
+	background: var(--dark-text);
+	color: white;
+}

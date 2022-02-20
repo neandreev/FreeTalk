@@ -5,4 +5,10 @@
 	--middle-gray: #C1CFDB;
 	--light-gray: #F3F6F8;
 	--green: #008DA0;
+	--light-text: #5F7794;
+	--dark-text: #0B2C54;
+	--button-blue-disabled: #C8DBE2;
+	--button-green-disabled: #C1DBDF;
+	--pagination-disabled: #C1CFDB;
+  --step-bg: #DDE7EE;
 }
