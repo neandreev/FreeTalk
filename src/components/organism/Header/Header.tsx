@@ -29,42 +29,47 @@ export const Header: FC = () => {
 	}, [signout]);
 
 	return (
-		<HeaderAnt>
-			<div className={style.logoWrapper}>
-				<Link to="/">
-					<img src={Logo} alt='FreeTalk' className={style.logo} />
-				</Link>
-			</div>
-			<div className={style.headerAction}>
-				{user ? (
-					<Button type='primary' onClick={handleSignOut}>
-						Выход
+		<HeaderAnt className={style.header}>
+			<div className='container'>
+				<div className={style.logoWrapper}>
+					<Link to='/'>
+						<img src={Logo} alt='FreeTalk' className={style.logo} />
+					</Link>
+				</div>
+				<div className={style.headerAction}>
+					<Button
+						type='primary'
+						className='app-btn _green'
+						onClick={user ? handleSignOut : handleShowModal}>
+						{user ? 'Выход' : 'Вход'}
 					</Button>
-				) : (
-					<Button type='primary' onClick={handleShowModal}>
-						Вход
-					</Button>
+				</div>
+				<LoginModalForm
+					isModalVisible={isModalVisible}
+					handleCloseModal={handleCloseModal}
+				/>
+				{user && (
+					<nav className={style.navigation}>
+						<ul className={style.menu}>
+							<li>
+								<Link to='/dictionary' className='app-btn _green'>
+									Словарь
+								</Link>
+							</li>
+							<li>
+								<Link to='/training' className='app-btn _green'>
+									Тренировка
+								</Link>
+							</li>
+							<li>
+								<Link to='/collections' className='app-btn _green'>
+									Коллекции
+								</Link>
+							</li>
+						</ul>
+					</nav>
 				)}
 			</div>
-			<LoginModalForm
-				isModalVisible={isModalVisible}
-				handleCloseModal={handleCloseModal}
-			/>
-			{user && (
-				<Menu theme='dark' mode='horizontal' defaultSelectedKeys={[]}>
-					<Menu.Item key=''>
-						<Link to="/dictionary">Словарь</Link>
-					</Menu.Item>
-					<Menu.Item key='2'>
-						<Link to="/training">Тренировка</Link>
-					</Menu.Item>
-					<Menu.Item key='3'>
-						<Link to="/collections">
-							Коллекции
-						</Link>
-					</Menu.Item>
-				</Menu>
-			)}
 		</HeaderAnt>
 	);
 };

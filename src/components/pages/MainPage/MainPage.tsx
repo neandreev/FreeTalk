@@ -1,17 +1,14 @@
-import {FC} from 'react';
+import { FC } from 'react';
 
-import {Translate} from '../../organism/Translate';
-import { Typography, Col, Row } from 'antd';
+import { Translate } from '../../organism/Translate';
 
-const { Title } = Typography;
+import styles from './MainPage.module.css';
 
 export const MainPage: FC = () => {
 	return (
-		<Row>
-			<Col span={14} offset={5}>
-				<Title level={3} style={{textAlign: 'center'}}>Время учить слова онлайн</Title>
-				<Translate/>
-			</Col>
-		</Row>
+		<div>
+			<h1 className={`page__title ${styles.title}`}>Время учить слова онлайн</h1>
+			<Translate />
+		</div>
 	);
 };

@@ -1,22 +1,32 @@
+.container {
+	height: 100%;
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
 .layout {
 	height: 100%;
 	display: flex;
-  flex-direction: column;
-	background-color: var(--light-gray)!important;
+	flex-direction: column;
+	background-image: url("../assets/background.jpg")!important;
+	background-size: cover!important;
+	background-position: center!important;
+	background-repeat: no-repeat!important;
 }
 
 .content {
-	height: calc(100% - 70px);
+	flex: 1 0 auto;
 }
 
 .page {
 	height: 100%;
-  padding: 70px 190px;
+	padding: 70px 190px;
 }
 
 .page__title {
 	margin-bottom: 0;
-  font-size: 25px;
+	font-size: 25px;
 	letter-spacing: 0.04em;
 }
 
@@ -32,42 +42,42 @@ hr {
 .ant-pagination-prev,
 .ant-pagination-item,
 .ant-pagination-next {
-  width: 36px;
-  height: 36px;
-  margin-right: 12px;
+	width: 36px;
+	height: 36px;
+	margin-right: 12px;
 }
 
 .ant-pagination-item,
 .ant-pagination-item-link {
-  border: 0!important;
-  border-radius: 4px!important;
-  background-color: var(--step-bg)!important;
+	border: 0 !important;
+	border-radius: 4px !important;
+	background-color: var(--step-bg) !important;
 }
 
 .ant-pagination-item-active {
-  background-color: var(--blue)!important;
+	background-color: var(--blue) !important;
 }
 
 .ant-pagination-item a {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 30px;
-  color: var(--light-text)!important;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 16px;
+	line-height: 30px;
+	color: var(--light-text) !important;
 }
 
 .ant-pagination-item-active a {
-  color: #fff!important;
+	color: #fff !important;
 }
 
 .ant-pagination-item-link svg {
-  color: var(--light-text);
+	color: var(--light-text);
 }
 
 .ant-pagination-disabled .ant-pagination-item-link svg {
-  color: var(--pagination-disabled);
+	color: var(--pagination-disabled);
 }

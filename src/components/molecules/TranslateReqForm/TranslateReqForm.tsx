@@ -59,6 +59,7 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled
 					size='large'
 					addonBefore={prefixSelector}
 					disabled={disabled}
+					autoComplete="off"
 				/>
 			</Form.Item>
 			<Button style={{display: 'none'}} htmlType='submit' />
