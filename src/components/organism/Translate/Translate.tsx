@@ -30,7 +30,7 @@ interface ITranslateData {
 }
 
 interface ITranslate {
-	onStartTranslate: () => void
+	onStartTranslate: (status: boolean) => void
 }
 
 type TWordWithoutID = Omit<IWord, 'id'>;
@@ -173,7 +173,7 @@ export const Translate: FC<ITranslate> = ({ onStartTranslate }) => {
 		({ TranslateDirection, TranslateRequest }) => {
 			const [fromLang, toLang] = TranslateDirection.toLowerCase().split('-');
 
-			onStartTranslate && onStartTranslate();
+			onStartTranslate && onStartTranslate(true);
 
 			setTranslateError(false);
 			setIsLoading(true);
@@ -193,6 +193,14 @@ export const Translate: FC<ITranslate> = ({ onStartTranslate }) => {
 			controller.abort();
 		};
 	}, []);
+
+	useEffect(() => {
+		if (!user) {
+			setTranslateResponse(null);
+			setAddWords([]);
+			onStartTranslate && onStartTranslate(false);
+		}
+	}, [user])
 
 	return (
 		<div className={styles.wrapper}>

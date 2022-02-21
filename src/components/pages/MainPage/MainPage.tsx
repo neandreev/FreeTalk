@@ -8,8 +8,8 @@ import styles from './MainPage.module.css';
 export const MainPage: FC = () => {
 	const [startTranslate, setStartTranslate] = useState(false);
 
-	const handleStartTranslate = useCallback(() => {
-		setStartTranslate(true);
+	const handleStartTranslate = useCallback((status: boolean) => {
+		setStartTranslate(status);
 	}, [])
 
 	return (
