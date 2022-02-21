@@ -87,3 +87,49 @@ hr {
 .ant-pagination-disabled .ant-pagination-item-link svg {
 	color: var(--pagination-disabled);
 }
+
+.ant-modal-title {
+	color: var(--gray)!important;
+}
+
+.ant-modal-header {
+	border-bottom: none!important;
+	padding-bottom: 0!important;
+}
+
+.ant-modal-body{
+	border-bottom: none!important;
+}
+
+.ant-modal-footer {
+	display: none!important;
+}
+
+.ant-tabs-ink-bar {
+	display: none!important;
+}
+
+.ant-tabs-top > .ant-tabs-nav::before {
+	border: none!important;
+}
+
+.ant-tabs-tab {
+	color: var(--gray);
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+	color: var(--dark-text)!important;
+}
+
+.ant-tabs-tab .ant-tabs-tab-btn:hover {
+	color: var(--dark-text)!important;
+}
+
+.ant-form-item-label > .ant-form-item-required {
+	color: var(--dark-text);
+}
+
+.ant-input,
+.ant-select-selection-item {
+	color: var(--dark-text)!important;
+}

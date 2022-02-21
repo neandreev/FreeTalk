@@ -100,7 +100,10 @@ export const RegistrationForm: FC<IRegistrationForm> = ({ onSuccess }) => {
 					span: 15,
 				}}
 			>
-				<Button type='primary' htmlType='submit'>
+				<Button
+					className='app-btn _green'
+					htmlType='submit'
+				>
 					Регистрация
 				</Button>
 			</Form.Item>

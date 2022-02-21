@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../../hooks';
 
 import { Form, Input, Button } from 'antd';
 
@@ -69,7 +69,10 @@ export const AuthorizationForm: FC<IAuthorizationForm> = ({ onSuccess }) => {
 					span: 19,
 				}}
 			>
-				<Button type='primary' htmlType='submit'>
+				<Button
+					htmlType='submit'
+					className='app-btn _green'
+				>
 					Войти
 				</Button>
 			</Form.Item>

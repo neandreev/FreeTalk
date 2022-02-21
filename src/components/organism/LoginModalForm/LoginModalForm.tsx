@@ -22,7 +22,6 @@ export const LoginModalForm: FC<ILoginModalForm> = ({
 
 	return (
 		<Modal
-			title='Вход FreeTalk'
 			visible={isModalVisible}
 			onCancel={handleCancel}
 			footer={[]}

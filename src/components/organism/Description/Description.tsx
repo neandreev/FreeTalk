@@ -42,6 +42,7 @@ export const Description: FC = () => {
 					DESC_DATA.map((item, index) => (
 						<Card
 							key={index}
+							hoverable
 							cover={<img className='card-cover' alt={item.imgALT} src={item.imgURL} />}
 							className={`card-description ${styles.card}`}
 						>
