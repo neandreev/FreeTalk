@@ -45,7 +45,7 @@ export const Description: FC = () => {
 							cover={<img className='card-cover' alt={item.imgALT} src={item.imgURL} />}
 							className={`card-description ${styles.card}`}
 						>
-							<h3 className={styles.cardTitle}>{item.title}</h3>
+							<h4 className={styles.cardTitle}>{item.title}</h4>
 							<p className={styles.cardDescription}>{item.description}</p>
 						</Card>
 					))

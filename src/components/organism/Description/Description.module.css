@@ -28,9 +28,10 @@ h3.title {
 }
 
 .cardTitle {
-	margin: 0;
+	font-size: 16px;
 }
 
-.cardDescription {
+.cardTitle, .cardDescription {
 	margin: 0;
+	color: var(--dark-text);
 }
