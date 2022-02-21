@@ -1,8 +1,7 @@
 .quiz-stats {
-  width: 500px;
+	max-width: 600px;
 }
 
 .quiz-stats .ant-card-head-title {
   text-align: center;
 }
-

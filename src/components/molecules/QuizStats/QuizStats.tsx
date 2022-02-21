@@ -29,8 +29,7 @@ export const QuizStats: FC = () => {
 	const { trainingWords, questions, correctAnswers, completedQuestions } =
 		useAppSelector(selectTraining);
 
-	const statsReactions = correctAnswers >= 5 ? 'Отлично!' : 'Упс!';
-	const title = `${statsReactions} Вы правильно перевели ${correctAnswers} из ${completedQuestions} слов!`;
+	const title = `Вы перевели ${correctAnswers} из ${completedQuestions} слов!`;
 
 	const wordsStats = getWordsStats(questions, trainingWords);
 
