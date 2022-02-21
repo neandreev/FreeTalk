@@ -14,7 +14,7 @@ import firebase from 'firebase';
 import { IWord } from '../../../interfaces/word';
 import { TranslateReqForm } from '../../molecules/TranslateReqForm';
 
-import { Typography, Empty, message } from 'antd';
+import { Row, Col, Empty, message } from 'antd';
 
 import styles from './Translate.module.css';
 
@@ -47,9 +47,8 @@ type TGetTranslateAddWords = (word: TWordWithoutID) => Promise<(TWordWithoutID |
 
 type THandleSubmitTranslateReqForm = ({ TranslateDirection, TranslateRequest }: ITranslateFormData) => void;
 
-const { Title } = Typography;
 
-export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
+export const Translate: FC<ITranslate> = ({ onStartTranslate }) => {
 	const controller = new AbortController();
 	const signal = controller.signal;
 
@@ -135,7 +134,7 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 				return null;
 			}
 
-			setIsLoadingAdd(false)
+			setIsLoadingAdd(false);
 
 			return null;
 		};
@@ -147,10 +146,10 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 
 
 	const getTranslate = async (fromLang: string, toLang: string, word: string) => {
-		setDisabledForm(true)
+		setDisabledForm(true);
 
 		try {
-			const mainTranslate = await getMainTranslate({fromLang: fromLang, toLang: toLang, word: word});
+			const mainTranslate = await getMainTranslate({ fromLang: fromLang, toLang: toLang, word: word });
 			const addTranslate = await getTranslateAddWords(mainTranslate);
 
 			const addTranslateLength = addTranslate.length;
@@ -167,7 +166,7 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 
 		setIsLoadingAdd(false);
 		setDisabledForm(false);
-	}
+	};
 
 
 	const handleSubmitTranslateReqForm = useCallback<THandleSubmitTranslateReqForm>(
@@ -193,7 +192,7 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 		return () => {
 			controller.abort();
 		};
-	},[])
+	}, []);
 
 	return (
 		<div className={styles.wrapper}>
@@ -207,7 +206,7 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 					(
 						<div className={styles.loading}>
 							<h3 className={styles.title}>Ищем перевод ...</h3>
-							<Spin className={styles.spin} size='large'/>
+							<Spin className={styles.spin} size='large' />
 						</div>
 					)
 				}
@@ -216,19 +215,26 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 					(
 						<div className={styles.translateError}>
 							<h3 className={styles.title}>Сожалеем, перевод не найден</h3>
-							<Empty description={false}/>
+							<Empty description={false} />
 						</div>
 					)
 				}
 				{
 					translateResponse &&
-					(<div className={styles.mainTranslateBody}>
-						<h3 className={styles.title}>Ваше слово:</h3>
-						<CardTranslateRes
-							word={translateResponse}
-							onAddWordToDictionary={handleAddWordToDictionary}
-						/>
-					</div>)
+					(<Row
+						gutter={[8, 8]}
+						justify='center'
+					>
+						<Col span={24}>
+							<h3 className={styles.title}>Ваше слово:</h3>
+						</Col>
+						<Col xs={24} sm={24} md={11} lg={11} xl={10}>
+							<CardTranslateRes
+								word={translateResponse}
+								onAddWordToDictionary={handleAddWordToDictionary}
+							/>
+						</Col>
+					</Row>)
 				}
 			</div>
 
@@ -238,7 +244,7 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 					(
 						<div className={styles.loading}>
 							<h3 className={styles.title}>Ищем дополнительные слова ...</h3>
-							<Spin className={styles.spin} size='large'/>
+							<Spin className={styles.spin} size='large' />
 						</div>
 					)
 				}
@@ -247,29 +253,36 @@ export const Translate: FC <ITranslate>= ({onStartTranslate}) => {
 					(
 						<div className={styles.translateError}>
 							<h3 className={styles.title}>Сожалеем, похожие слова не найдены</h3>
-							<Empty description={false}/>
+							<Empty description={false} />
 						</div>
 					)
 				}
 				{
 					!disabledForm &&
 					!addWordsError &&
-					!!addWords.length	&&
+					!!addWords.length &&
 					<h3 className={styles.title}>Посмотрите похожие слова:</h3>
 				}
-				<div className={styles.wordsWrapper}>
+				<Row
+					gutter={[8, 8]}
+					justify='center'
+				>
 					{
 						addWords.map((item, index) => {
 							if (!!item) {
-								return <CardTranslateRes
-									key={index}
-									word={item}
-									onAddWordToDictionary={handleAddWordToDictionary}
-								/>;
+								return (
+									<Col key={index} xs={24} sm={24} md={11} lg={11} xl={10}>
+										<CardTranslateRes
+											key={index}
+											word={item}
+											onAddWordToDictionary={handleAddWordToDictionary}
+										/>
+									</Col>
+								);
 							}
 						})
 					}
-				</div>
+				</Row>
 			</div>
 		</div>
 	);

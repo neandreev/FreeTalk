@@ -1,10 +1,10 @@
 import { FC, useCallback } from 'react';
 
-import { Col, Card, Button } from 'antd';
+import { Row, Col, Card, Button } from 'antd';
 
 import { ICardTranslateRes } from '../../../interfaces/translate';
 
-import style from './CardTranslateRes.module.css'
+import styles from './CardTranslateRes.module.css'
 import './CardTranslateRes.css'
 
 export const CardTranslateRes: FC<ICardTranslateRes> = (
@@ -15,21 +15,39 @@ export const CardTranslateRes: FC<ICardTranslateRes> = (
 	}, [onAddWordToDictionary]);
 
 	return (
-		<Col span={8}>
 			<Card
 				className='card-translate-res'
 				cover={<img className='card-cover' alt={word.word} src={word.imageURL} />}
 			>
-				<div className={style.cardBody}>
-					<div className={style.cardText}>
-						<p><strong>{word.word}</strong></p>
-						<p>{word.translation}</p>
-					</div>
-					<div>
-						<Button onClick={handleAddWordToDictionary}>Добавить в словарь</Button>
-					</div>
-				</div>
+				<Row
+					justify='space-between'
+					align='middle'
+					wrap={false}
+					gutter={[8, 8]}
+				>
+					<Col className={styles.cardText}>
+						<p className={styles.translate}>
+							<span className={styles.title}>
+								EN:
+							</span>
+							{word.word}
+						</p>
+						<p className={styles.translate}>
+							<span className={styles.title}>
+								RU:
+							</span>
+							{word.translation}
+						</p>
+					</Col>
+					<Col>
+						<Button
+							className='app-btn _green'
+							onClick={handleAddWordToDictionary}
+						>
+							Добавить
+						</Button>
+					</Col>
+				</Row>
 			</Card>
-		</Col>
 	);
 };

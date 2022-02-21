@@ -20,15 +20,6 @@
 	align-items: center;
 }
 
-.wordsWrapper {
-	width: 100%;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 15px;
-	justify-content: center;
-	align-items: center;
-}
-
 .loading {
 	position: relative;
 	height: 320px;
@@ -57,6 +48,7 @@
 }
 
 .title {
+	text-align: center;
 	margin-bottom: 15px;
 	font-size: 20px;
 	letter-spacing: 0.04em;

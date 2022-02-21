@@ -1,17 +1,23 @@
-.cardBody {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-}
-
 .cardText {
 	margin: 0;
-	padding: 7px 0;
 	font-size: 14px;
-	text-align: center;
+	text-align: left;
 }
 
 .cardText p{
 	margin: 0 0 7px 0;
+}
+
+.title {
+	margin-right: 10px;
+	font-weight: bold;
+	color: var(--green);
+}
+
+.translate {
+	color: var(--dark-text);
+}
+
+.none {
+	display: none;
 }
