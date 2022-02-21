@@ -3,9 +3,9 @@ import { useAuth } from '../../../hooks';
 import { Link, useLocation } from 'react-router-dom';
 
 import { LoginModalForm } from '../LoginModalForm';
-import {ReactComponent as FreeTalk} from './assets/FreeTalk.svg';
+import {ReactComponent as FreeTalk} from '../../../assets/FreeTalk.svg';
 
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu } from 'antd';
 
 import style from './Header.module.css';
 import './Header.css';
