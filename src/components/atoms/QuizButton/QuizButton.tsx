@@ -4,7 +4,7 @@ import cn from 'classnames';
 import firebase from 'firebase';
 import { FC, useState } from 'react';
 
-import { Popover } from 'antd';
+import { Card } from 'antd';
 
 import {
 	answerQuestion,
@@ -62,7 +62,7 @@ export const QuizButton: FC<IQuizButton> = (props) => {
 	const word = _.find(trainingWords, { id: wordId }) as IWord;
 
 	const handleButtonClick = () => {
-		if (isClicked) return;
+		if (isClicked || wasAnswered) return;
 		if (isCorrect) {
 			const completedTrains = word.completedTrains + 1;
 			const timeToTrain = updateTimeToTrain(word.timeToTrain, completedTrains);
@@ -85,48 +85,38 @@ export const QuizButton: FC<IQuizButton> = (props) => {
 		setIsClicked(true);
 	};
 
-	const PopoverImage = (
-		<div className={style.image}>
-			<img src={word.imageURL} alt={word.translation} style={{ height: '200px' }} />
-			<span className={style.word}>{word.word}</span>
+	const coverStyles = cn(style.img, { [style.blurred]: !wasAnswered });
+	const cover = (
+		<div className={cn(style.imgContainer, { [style.answered]: wasAnswered })}>
+			<img className={coverStyles} src={word.imageURL} alt={word.translation} />
 		</div>
 	);
 
-	const clickedButtonStyles = cn([style.quizButton_picked], {
-		[style.quizButton_correct]: isCorrect,
-		[style.quizButton_wrong]: !isCorrect,
-	});
-
-	const buttonStyles = cn(style.quizButton, {
-		[style.noHover]: wasAnswered,
-		[clickedButtonStyles]: isClicked,
-	});
-
-	const Button = (
-		<div data-quizbutton className={buttonStyles} onClick={handleButtonClick}>
-			{word.translation}
-		</div>
-	);
-
-	const popoverStyles = cn('popover', {
-		popover_correct: isCorrect,
-		popover_wrong: !isCorrect,
+	const cardStyles = cn('quizButton', {
+		quizButton_wrong: !isCorrect && isClicked,
+		quizButton_correct: isCorrect && isClicked,
 	});
 
 	return (
-		<>
-			{!isClicked ? (
-				Button
-			) : (
-				<Popover
-					visible={isClicked}
-					placement={props.placement}
-					overlayClassName={popoverStyles}
-					content={PopoverImage}
-				>
-					{Button}
-				</Popover>
-			)}
-		</>
+		<Card
+			hoverable
+			className={cardStyles}
+			cover={cover}
+			onClick={handleButtonClick}
+			data-quizbutton
+		>
+			<div>
+				<div>
+					<span className={style.blueTitle}>RU:</span>
+					<span>{word.translation}</span>
+				</div>
+				<div>
+					<span className={cn(style.blueTitle)}>EN:</span>
+					<span className={cn(style.title, { [style.blurredTitle]: !wasAnswered })}>
+						{word.word}
+					</span>
+				</div>
+			</div>
+		</Card>
 	);
 };

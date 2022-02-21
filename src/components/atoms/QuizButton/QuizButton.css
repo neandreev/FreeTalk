@@ -1,17 +1,25 @@
-.popover .ant-popover-inner-content {
-	padding: 3px;
+.quizButton .ant-card-body {
+	padding: 12px;
 }
 
-.popover .ant-popover-inner {
-	border-radius: 10px;
+.quizButton .ant-card-cover img {
+	border-radius: 7px 7px 0 0;
 }
 
-.popover.popover_correct .ant-popover-inner,
-.popover.popover_correct .ant-popover-arrow-content {
-	background-color: #4bb450;
+.quizButton.ant-card-bordered .ant-card-cover {
+	margin: 0
 }
 
-.popover.popover_wrong .ant-popover-inner,
-.popover.popover_wrong .ant-popover-arrow-content {
-	background-color: #f5564a;
+.quizButton {
+	/* max-width: 200px; */
+}
+
+.quiz .quizButton_wrong {
+	background-color: #f88e86;
+	border-color: #f5564a;
+}
+
+.quiz .quizButton_correct {
+	background-color: #87cd8a;
+	border-color: #4bb450;
 }

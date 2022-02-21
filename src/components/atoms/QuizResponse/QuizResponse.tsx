@@ -15,7 +15,7 @@ export const QuizResponse: FC<IQuizResponse> = (props) => (
 			<div className={style.quizFooter}>
 				<AnswerInform />
 				<span className={style.quizNextWord} onClick={props.handleNextQuestion}>
-					Next word
+					Следующее слово
 				</span>
 			</div>
 		)}

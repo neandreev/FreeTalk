@@ -20,6 +20,8 @@ import { IQuestion } from '../../../interfaces/question';
 import { TrainingIntro } from '../../atoms/TrainingIntro';
 
 import style from './Training.module.css';
+import './Training.css'
+import { Col, Row } from 'antd';
 
 const generateQuestions = (words: IWord[]) => {
 	const questions = words.map((word) => {
@@ -99,8 +101,10 @@ export const Training: FC = (props) => {
 	};
 
 	return (
-		<div className={style.training}>
-			<div className={style.trainingFlexbox}>
+		<Row justify="center" align="middle">
+			<Col className='training'>
+			<h1 className={`page__title ${style.title}`}>Тренировка</h1>
+			<hr />
 			{!isLoading && isDataPrepared && startTraining ? (
 				<Quiz />
 			) : (
@@ -114,7 +118,7 @@ export const Training: FC = (props) => {
 				isCompleted={isCompleted}
 				handleReset={handleResetTraining}
 			/>
-			</div>
-		</div>
+			</Col>
+		</Row>
 	);
 };

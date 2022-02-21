@@ -10,7 +10,6 @@ interface ITrainingIntro {
 
 export const TrainingIntro: FC<ITrainingIntro> = (props) => (
 	<div>
-		<h2>Тренировка</h2>
 		{props.isDataPrepared ? (
 			props.isTrainingAvailable ? (
 				<div>Вы можете начать тренировку</div>
@@ -24,7 +23,7 @@ export const TrainingIntro: FC<ITrainingIntro> = (props) => (
 			<Spin />
 		)}
 
-		<Button type='primary' onClick={props.handleStart} disabled={!props.isTrainingAvailable}>
+		<Button className={'app-btn _green'} type='primary' onClick={props.handleStart} disabled={!props.isTrainingAvailable}>
 			Начать тренировку
 		</Button>
 	</div>

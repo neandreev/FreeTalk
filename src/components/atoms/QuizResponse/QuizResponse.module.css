@@ -1,13 +1,12 @@
 .quizFooter {
-  font-size: 28px;
+  font-size: 24px;
   display: flex;
 
   margin: 15px 0 0 0;
-  justify-content: end;
+  justify-content: space-evenly;
 }
 
 .quizFooter > span {
-  width: 150px;
   text-align: end;
 }
 

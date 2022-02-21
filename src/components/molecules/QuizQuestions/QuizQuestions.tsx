@@ -15,7 +15,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { IWord } from '../../../interfaces/word';
 import { ITrainingAnswer } from '../../../interfaces/training';
 
-import style from './QuizQuestions.module.css';
 import './QuizQuestions.css';
 
 export const QuizQuestions: FC = () => {
@@ -46,14 +45,14 @@ export const QuizQuestions: FC = () => {
 	);
 
 	const QuestionTitle = (
-		<Space>
+		<Space wrap>
 			<span>Выберите перевод слова:</span>
 			<span style={{ fontWeight: 'bold' }}>{correctWord.word}</span>
 		</Space>
 	);
 
 	return (
-		<div className={style.quizQuestions}>
+		<div>
 			<Card title={QuestionTitle}>
 				<QuizList variants={shuffledVariants} />
 				<QuizResponse
