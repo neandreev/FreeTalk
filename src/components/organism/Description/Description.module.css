@@ -7,9 +7,10 @@
 }
 
 
-.title {
+h3.title {
 	text-transform: uppercase;
 	color: var(--gray);
+	font-size: 20px;
 }
 
 .cardsWrapper {

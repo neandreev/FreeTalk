@@ -14,7 +14,7 @@ export const MainPage: FC = () => {
 
 	return (
 		<div>
-			<h1 className={`page__title ${styles.title}`}>Время учить слова онлайн</h1>
+			<h2 className={`page__title ${styles.title}`}>Время учить слова онлайн</h2>
 			<Translate onStartTranslate={handleStartTranslate}/>
 			{
 				!startTranslate && <Description />

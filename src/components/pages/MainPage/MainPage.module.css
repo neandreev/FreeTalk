@@ -1,4 +1,6 @@
-.title {
+h2.title {
+	text-align: center;
 	text-transform: uppercase;
 	color: var(--gray);
+	margin-bottom: 35px;
 }
