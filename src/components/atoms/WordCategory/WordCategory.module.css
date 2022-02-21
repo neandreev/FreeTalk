@@ -1,3 +1,7 @@
 .wordCategory_input {
 	width: 78px !important;
 }
+
+.wordCategory_tag {
+	cursor: pointer;
+}

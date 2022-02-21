@@ -1,11 +1,11 @@
-import { Col, Row } from 'antd';
 import { FC } from 'react';
 import { Dictionary } from '../../organism/Dictionary';
 
+import style from './Dictionary.module.css';
+
 export const DictionaryPage: FC = () => (
-	<Row>
-		<Col span={14} offset={5}>
-			<Dictionary />
-		</Col>
-	</Row>
+	<div>
+		<h1 className={`page__title ${style.title}`}>Словарь</h1>
+		<Dictionary />
+	</div>
 );

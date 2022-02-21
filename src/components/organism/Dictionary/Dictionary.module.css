@@ -1,0 +1,12 @@
+.availableForTrain {
+	color: var(--green);
+}
+
+.expandableParagraph {
+	margin: 0;
+}
+
+.title {
+	text-transform: uppercase;
+	color: var(--gray);
+}

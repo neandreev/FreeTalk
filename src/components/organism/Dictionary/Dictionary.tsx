@@ -1,8 +1,17 @@
 import _ from 'lodash';
+import cn from 'classnames';
 import firebase from 'firebase';
 import plural from 'plural-ru';
 import { FC, Key, MouseEventHandler } from 'react';
-import { Button, Checkbox, Col, Popconfirm, PageHeader, Row, Space, Table } from 'antd';
+import {
+	Button,
+	Checkbox,
+	Col,
+	Popconfirm,
+	Row,
+	Space,
+	Table,
+} from 'antd';
 
 import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
@@ -24,13 +33,20 @@ import './Dictionary.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { BarsOutlined } from '@ant-design/icons';
+import calendar from 'dayjs/plugin/calendar';
+import { DeleteOutlined } from '@ant-design/icons';
+
+import style from './Dictionary.module.css';
 
 dayjs.locale('ru');
 dayjs.extend(localizedFormat);
+dayjs.extend(calendar);
 
 const getWordsAmountPlural = (count: number) =>
 	plural(count, '%d слово', '%d слова', '%d слов');
+
+const getWordsRepeatsPlural = (count: number) =>
+	plural(count, '%d раз', '%d раза', '%d раз');
 
 export const Dictionary: FC = () => {
 	const auth = useAuth();
@@ -54,6 +70,7 @@ export const Dictionary: FC = () => {
 	const handleRemoveWord = (wordKey: Key) => {
 		const word = _.find(words, { id: wordKey }) as IWord;
 		const wordsUpdate = { wordId: word.id, userId: user.uid };
+		dispatch(setSelectedRows(selectedRowKeys.filter((key) => key !== wordKey)));
 		deleteWord(wordsUpdate);
 	};
 
@@ -101,6 +118,7 @@ export const Dictionary: FC = () => {
 		{
 			title: 'Категория',
 			dataIndex: 'category',
+			width: '100px',
 			filters: filterCategories,
 			onFilter,
 			render: (text: string, record: IWord) => (
@@ -108,48 +126,36 @@ export const Dictionary: FC = () => {
 			),
 			sorter: (a, b) => a.category.localeCompare(b.category),
 		},
-		{
-			title: 'Кол-во повторений',
-			dataIndex: 'completedTrains',
-			width: '110px',
-			key: 'completedTrains',
-			sortDirections: ['descend', 'ascend'],
-			sorter: (a, b) => a.completedTrains - b.completedTrains,
-		},
-		{
-			title: 'Следующее повторение',
-			key: 'timeToTrain',
-			width: '150px',
-			render: (text: string, record: IWord) => {
-				const timeToTrainFormat = dayjs(record.timeToTrain).format('DD-MM-YYYY');
-
-				const availableForTraining = record.timeToTrain < Date.now();
-
-				return !availableForTraining ? (
-					<span>{timeToTrainFormat}</span>
-				) : (
-					<span style={{ color: '#4bb450' }}>{timeToTrainFormat}</span>
-				);
-			},
-			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
-		},
-		{
-			title: 'Изучено',
-			className: 'ant-table-checkbox-cell',
-			key: 'isLearned',
-			width: '40px',
-			render: (text: string, record: IWord) => (
-				<Checkbox
-					checked={record.isLearned}
-					onClick={() => handleLearnWord(record.id)}
-				/>
-			),
-		},
+		// {
+		// 	title: '',
+		// 	className: 'ant-table-checkbox-cell',
+		// 	key: 'isLearned',
+		// 	width: '30px',
+		// 	render: (text: string, record: IWord) => (
+		// 		<Checkbox
+		// 			checked={record.isLearned}
+		// 			onClick={() => handleLearnWord(record.id)}
+		// 		/>
+		// 	),
+		// 	sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
+		// },
 		{
 			key: 'actions',
+			title: 'Изучено',
 			render: (text: string, record: IWord) => (
-				<Button onClick={() => handleRemoveWord(record.id)}>Удалить</Button>
+				<Space size='large'>
+					<Checkbox
+						checked={record.isLearned}
+						onClick={() => handleLearnWord(record.id)}
+					/>
+					<DeleteOutlined
+						className=''
+						// style={{ color: 'var(--gray)' }}
+						onClick={() => handleRemoveWord(record.id)}
+					/>
+				</Space>
 			),
+			// sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
 		},
 	];
 
@@ -161,11 +167,32 @@ export const Dictionary: FC = () => {
 		},
 	};
 
+	const getExpandableInfo = (record: IWord) => {
+		const timeToTrainFormat = dayjs(record.timeToTrain).format('DD MMMM YYYY');
+		// const timeToTrainFormat = dayjs(record.timeToTrain).calendar();
+		const isAvailableForTraining = record.timeToTrain < Date.now();
+
+		const dayToTrainStyles = cn({
+			[style.availableForTrain]: isAvailableForTraining,
+		});
+		const dayToTrain = (
+			<span className={dayToTrainStyles}>{timeToTrainFormat}</span>
+		);
+
+		return (
+			<p className={style.expandableParagraph}>
+				Слово верно повторено {getWordsRepeatsPlural(record.completedTrains)},
+				доступно для тренировки с {dayToTrain}
+			</p>
+		);
+	};
+
 	const tableTitle = () => (
 		<Space>
 			<Popconfirm
 				title='Вы действительно хотите удалить выбранные слова?'
 				onConfirm={handleRemoveMultipleWords}
+				disabled={selectedRowKeys.length === 0}
 				okText='Да'
 				cancelText='Нет'
 			>
@@ -188,14 +215,16 @@ export const Dictionary: FC = () => {
 
 	return (
 		<div className='dictionary'>
-			<Row>
-				<Col span={20} offset={2}>
-					<PageHeader title="Словарь" extra={<BarsOutlined />} />
+			<Row justify='center'>
+				<Col lg={20} md={22} span={24}>
 					<Table
 						bordered={true}
 						title={tableTitle}
 						loading={isLoading}
 						rowKey='id'
+						expandable={{
+							expandedRowRender: getExpandableInfo,
+						}}
 						rowSelection={rowSelection}
 						dataSource={words}
 						columns={columns}

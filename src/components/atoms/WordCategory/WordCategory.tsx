@@ -1,4 +1,6 @@
+import { EditOutlined } from '@ant-design/icons';
 import { Input, Tag } from 'antd';
+import _ from 'lodash';
 import { FC, Key, useEffect, useRef, useState } from 'react';
 import { IWord } from '../../../interfaces/word';
 import style from './WordCategory.module.css';
@@ -21,7 +23,7 @@ export const WordCategory: FC<IWordCategory> = ({ record, handleUpdateWord }) =>
 
 	const handleUpdate = () => {
 		if (inputValue !== "") {
-			handleUpdateWord(record.id, { category: inputValue });
+			handleUpdateWord(record.id, { category: _.capitalize(inputValue) });
 		} else {
 			setInputValue(record.category);
 		}
@@ -43,11 +45,13 @@ export const WordCategory: FC<IWordCategory> = ({ record, handleUpdateWord }) =>
 				/>
 			) : (
 				<Tag
+					icon={<EditOutlined style={{ color: 'var(--green)' }} />}
+					className={style.wordCategory_tag}
 					onClick={() => {
 						setInputVisible(true);
 					}}
 				>
-					<span>{record.category}</span>
+					<span>{_.capitalize(record.category)}</span>
 				</Tag>
 			)}
 		</>

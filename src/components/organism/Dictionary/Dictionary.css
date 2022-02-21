@@ -1,11 +1,24 @@
-.dictionary {
-	background-color: white;
-}
-
 .dictionary .ant-table-checkbox-cell {
 	text-align: center;
 }
 
-.dictionary .ant-table-checkbox-cell span {
-	transform: matrix(1.4, 0, 0, 1.4, 0, 0);
+.dictionary .ant-table-cell:last-child .ant-checkbox {
+	transform: matrix(1.35, 0, 0, 1.35, 0, 0);
+}
+
+.dictionary .anticon-delete {
+	color: var(--gray);
+	transform: matrix(1.8, 0, 0, 1.8, 0, 0);
+
+	transition-property: color;
+	transition-duration: 0.3s;
+}
+
+.dictionary .anticon-delete:hover {
+	color: red;
+}
+
+.dictionary .ant-checkbox-checked .ant-checkbox-inner,
+.dictionary .ant-btn-primary {
+	background-color: var(--green);
 }
