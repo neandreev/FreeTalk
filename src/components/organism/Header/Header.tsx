@@ -47,12 +47,12 @@ export const Header: FC = () => {
 					</Link>
 				</div>
 				<div className={style.headerAction}>
-					<Button
+					<a
+					className={style.authBtn}
 						type='primary'
-						className='app-btn _blue'
 						onClick={user ? handleSignOut : handleShowModal}>
 						{user ? 'Выход' : 'Вход'}
-					</Button>
+					</a>
 				</div>
 				<LoginModalForm
 					isModalVisible={isModalVisible}

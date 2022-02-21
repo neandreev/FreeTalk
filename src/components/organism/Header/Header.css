@@ -7,7 +7,12 @@
 }
 
 .header-navigation.ant-menu-horizontal > .ant-menu-item a {
-	color: var(--blue);
+	letter-spacing: 0.06em;
+	color: var(--gray);
+}
+
+.ant-menu-title-content::before {
+	display: none;
 }
 
 .header-navigation.ant-menu-horizontal > .ant-menu-item a:hover {
@@ -22,4 +27,12 @@
 .header-navigation.ant-menu-horizontal:not(.ant-menu-dark) >
 .ant-menu-item:hover:after {
 	border-bottom: 2px solid var(--dark-text);
+}
+
+.ant-menu-item::after {
+	display: none;
+}
+
+.ant-menu-item-selected a {
+	color: var(--dark-text)!important;
 }
