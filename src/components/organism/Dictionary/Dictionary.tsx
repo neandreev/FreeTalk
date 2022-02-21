@@ -2,16 +2,8 @@ import _ from 'lodash';
 import cn from 'classnames';
 import firebase from 'firebase';
 import plural from 'plural-ru';
-import { FC, Key, MouseEventHandler } from 'react';
-import {
-	Button,
-	Checkbox,
-	Col,
-	Popconfirm,
-	Row,
-	Space,
-	Table,
-} from 'antd';
+import { FC, Key, MouseEventHandler, useEffect } from 'react';
+import { Button, Checkbox, Col, Row, Space, Table } from 'antd';
 
 import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
@@ -104,16 +96,24 @@ export const Dictionary: FC = () => {
 		dispatch(setSelectedRows([]));
 	};
 
+	useEffect(() => {
+		return () => {
+			dispatch(setSelectedRows([]));
+		};
+	}, []);
+
 	const columns: ColumnsType<IWord> = [
 		{
 			title: 'Слово',
 			dataIndex: 'translation',
 			key: 'translation',
+			sorter: (a, b) => a.translation.localeCompare(b.translation),
 		},
 		{
 			title: 'Перевод',
 			dataIndex: 'word',
 			key: 'word',
+			sorter: (a, b) => a.word.localeCompare(b.word),
 		},
 		{
 			title: 'Категория',
@@ -126,19 +126,6 @@ export const Dictionary: FC = () => {
 			),
 			sorter: (a, b) => a.category.localeCompare(b.category),
 		},
-		// {
-		// 	title: '',
-		// 	className: 'ant-table-checkbox-cell',
-		// 	key: 'isLearned',
-		// 	width: '30px',
-		// 	render: (text: string, record: IWord) => (
-		// 		<Checkbox
-		// 			checked={record.isLearned}
-		// 			onClick={() => handleLearnWord(record.id)}
-		// 		/>
-		// 	),
-		// 	sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
-		// },
 		{
 			key: 'actions',
 			title: 'Изучено',
@@ -150,12 +137,10 @@ export const Dictionary: FC = () => {
 					/>
 					<DeleteOutlined
 						className=''
-						// style={{ color: 'var(--gray)' }}
 						onClick={() => handleRemoveWord(record.id)}
 					/>
 				</Space>
 			),
-			// sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
 		},
 	];
 
@@ -169,7 +154,6 @@ export const Dictionary: FC = () => {
 
 	const getExpandableInfo = (record: IWord) => {
 		const timeToTrainFormat = dayjs(record.timeToTrain).format('DD MMMM YYYY');
-		// const timeToTrainFormat = dayjs(record.timeToTrain).calendar();
 		const isAvailableForTraining = record.timeToTrain < Date.now();
 
 		const dayToTrainStyles = cn({
@@ -189,23 +173,19 @@ export const Dictionary: FC = () => {
 
 	const tableTitle = () => (
 		<Space>
-			<Popconfirm
-				title='Вы действительно хотите удалить выбранные слова?'
-				onConfirm={handleRemoveMultipleWords}
-				disabled={selectedRowKeys.length === 0}
-				okText='Да'
-				cancelText='Нет'
-			>
-				<Button type='primary' disabled={selectedRowKeys.length === 0}>
-					Удалить выбранные слова
-				</Button>
-			</Popconfirm>
 			<Button
-				type='primary'
+				onClick={handleRemoveMultipleWords}
+				disabled={selectedRowKeys.length === 0}
+				className='app-btn _green'
+			>
+				Удалить слова
+			</Button>
+			<Button
+				className='app-btn _green'
 				disabled={selectedRowKeys.length === 0}
 				onClick={handleLearnMultipleWords}
 			>
-				Отметить выбранные слова изученными
+				Изучить слова
 			</Button>
 			{selectedRowKeys.length > 0 && (
 				<span>Вы выбрали {getWordsAmountPlural(selectedRowKeys.length)}</span>
@@ -217,6 +197,8 @@ export const Dictionary: FC = () => {
 		<div className='dictionary'>
 			<Row justify='center'>
 				<Col lg={20} md={22} span={24}>
+					<h1 className={`page__title ${style.title}`}>Словарь</h1>
+					<hr />
 					<Table
 						bordered={true}
 						title={tableTitle}
