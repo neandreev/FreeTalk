@@ -47,7 +47,7 @@ export const DetailCollectionWordCard: FC<IWord> = ({ id, word, translation, ima
 					</div>
   			}>
 					<div className={styles.content}>
-						<div>
+						<div className={styles.translation}>
 							<div>
 								<span className={styles.title}>EN:</span>
 								<span>{word}</span>

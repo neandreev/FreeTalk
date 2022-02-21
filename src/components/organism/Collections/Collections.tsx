@@ -45,9 +45,9 @@ export const Collections: FC<{ data: ICollection[] }> = ({ data }) => {
 
 	return (
 			<>
-				<Row justify='center' className={styles.cards} gutter={16}>
+				<Row justify='center' className={styles.cards} gutter={[16, 16]}>
 					{collections.map((item) => (
-						<Col span={8} key={item.id}>
+						<Col xs={24} md={12} lg={8} key={item.id}>
 							<CollectionCard
 								id={item.id}
 								title={item.title}

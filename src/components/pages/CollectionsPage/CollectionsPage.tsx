@@ -11,7 +11,7 @@ export const CollectionsPage: FC = () => {
 	const { data } = useGetCollectionsQuery(null);
 
 	return (
-		<div className='page'>
+		<div style={{ height: '100%' }}>
 			{data ? (
 				<>
 					<Row>

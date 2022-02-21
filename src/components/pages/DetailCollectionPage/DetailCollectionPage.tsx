@@ -9,7 +9,7 @@ export const DetailCollectionPage: FC = () => {
 	const { data } = useGetCollectionsQuery(null);
 
 	return (
-		<div className='page'>
+		<div style={{ height: '100%' }}>
 			{data ? (
 				<DetailCollection data={data} />
 			) : (

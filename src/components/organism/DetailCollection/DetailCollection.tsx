@@ -64,9 +64,9 @@ export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 						<hr />
 					</Col>
 				</Row>
-				<Row className={styles.cards} gutter={[16, 16]}>
+				<Row className={styles.cards} gutter={[8, 8]}>
 					{words?.map((item) => (
-						<Col key={item.word} span={8}>
+						<Col key={item.word} xs={24} md={12} lg={8}>
 							<DetailCollectionWordCard
 								id={item.id}
 								word={item.word}
