@@ -22,7 +22,8 @@
 
 .imgContainer {
 	overflow: hidden;
-	height: 0;
+	height: 130px;
+	border-radius: 7px 7px 0 0;
 
 	transition-duration: 0.3s;
 	transition-timing-function: ease-out;
@@ -36,6 +37,8 @@
 	height: 100%;
 	width: 100%;
 	object-fit: cover;
+
+	transition-duration: 0.3s;
 }
 
 .img.blurred {

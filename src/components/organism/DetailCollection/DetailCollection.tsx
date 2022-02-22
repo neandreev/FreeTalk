@@ -66,7 +66,7 @@ export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 				</Row>
 				<Row className={styles.cards} gutter={[8, 8]}>
 					{words?.map((item) => (
-						<Col key={item.word} xs={24} md={12} lg={8}>
+						<Col key={item.word} xs={24} sm={12} lg={8}>
 							<DetailCollectionWordCard
 								id={item.id}
 								word={item.word}
@@ -81,7 +81,7 @@ export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 					))}
 				</Row>
 				<Row className={styles.pagination} justify="space-between">
-					<Col>
+					<Col style={{ marginTop: '10px' }}>
 						<Pagination
 							total={pagination.total}
 							pageSize={pagination.limit}
@@ -90,7 +90,7 @@ export const DetailCollection: FC<{ data: ICollection[] }> = ({ data }) => {
 							hideOnSinglePage={false}
 						/>
 					</Col>
-					<Col>
+					<Col style={{ marginTop: '10px' }}>
 						<Button className={`app-btn ${styles.btnCollections}`} onClick={handleBack}>Вернуться к коллекциям</Button>
 					</Col>
 				</Row>
