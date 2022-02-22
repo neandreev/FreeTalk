@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useAuth } from '../../../hooks';
 
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 
 interface IRegFormData {
 	email: string;
@@ -19,7 +19,9 @@ export const RegistrationForm: FC<IRegistrationForm> = ({ onSuccess }) => {
 	const { signup } = auth!;
 
 	const onFinish = useCallback((values: IRegFormData) => {
-		signup(values.email, values.password).then(() => onSuccess());
+		signup(values.email, values.password)
+			.then(() => onSuccess())
+			.catch((error) => message.error(error.message, 4));
 	}, []);
 
 	useEffect(() => {

@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect } from 'react';
 import { useAuth } from '../../../hooks';
 
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 
 interface IAuthFormData {
 	email: string;
@@ -18,8 +18,11 @@ export const AuthorizationForm: FC<IAuthorizationForm> = ({ onSuccess }) => {
 	const { signin } = auth!;
 
 	const onFinish = useCallback((values: IAuthFormData) => {
-		signin(values.email, values.password).then(() => onSuccess());
+		signin(values.email, values.password)
+			.then(() => onSuccess())
+			.catch((error) => message.error(error.message, 4));
 	}, []);
+
 
 	useEffect(() => {
 		form.resetFields();
