@@ -39,7 +39,7 @@ export const usersApi = createApi({
 					const wordsArray: IWord[] = wordsEntries.map(
 						([id, word]) => ({ ...word, id } as IWord)
 					);
-					return wordsArray;
+					return _.reverse(wordsArray);
 				}
 			},
 			providesTags: ['Words'],
