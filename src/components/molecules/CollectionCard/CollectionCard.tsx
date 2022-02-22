@@ -9,7 +9,7 @@ import styles from './CollectionCard.module.css';
 export const CollectionCard: FC<ICollection> = ({ id, title, coverUrl }) => {
 	return (
 		<Card
-			cover={<img alt={title} src={coverUrl} />}
+			cover={<img alt={title} src={coverUrl} className={styles.cardImg} />}
 		>
 			<div className={styles.info}>
 				<span>{ title }</span>

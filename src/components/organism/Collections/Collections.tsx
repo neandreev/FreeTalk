@@ -10,7 +10,7 @@ import styles from './Collections.module.css';
 export const Collections: FC<{ data: ICollection[] }> = ({ data }) => {
 	const [collections, setCollections] = useState<Array<ICollection>>([]);
 	const [pagination, setPagination] = useState<IPagination>({
-		limit: 6,
+		limit: 3,
 		index: 1,
 		total: 0,
 	});
