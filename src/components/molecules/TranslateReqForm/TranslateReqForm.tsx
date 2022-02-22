@@ -52,6 +52,11 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled
 			onFinish={onFinish}
 			style={{ width: '100%' }}
 			initialValues={{ TranslateDirection: directTranslate }}
+			onKeyPress={(e) => {
+				if (e.key === "Enter") {
+					form.submit();
+				}
+			}}
 		>
 			<Form.Item name='TranslateRequest'>
 				<Input
@@ -62,7 +67,6 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled
 					autoComplete="off"
 				/>
 			</Form.Item>
-			<Button style={{display: 'none'}} htmlType='submit' />
 		</Form>
 	);
 };

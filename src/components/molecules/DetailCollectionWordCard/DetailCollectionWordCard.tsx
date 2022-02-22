@@ -58,7 +58,7 @@ export const DetailCollectionWordCard: FC<IWord> = ({ id, word, translation, ima
 							</div>
 						</div>
 						<Button className='app-btn _green' disabled={isAddedToDictionary} onClick={handleAddToDictionary}>
-							{ isAddedToDictionary ? 'Добавлено в словарь' : 'Добавить в словарь' }
+							{ isAddedToDictionary ? 'Добавлено' : 'Добавить' }
 						</Button>
 					</div>
 			</Card>

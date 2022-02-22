@@ -23,11 +23,9 @@ export const CollectionsPage: FC = () => {
 					<Collections data={data} />
 				</>
 			) : (
-				<Row justify="center" align='middle' style={{ height: '100%' }}>
-					<Col>
-						<Spin size="large" />
-					</Col>
-				</Row>
+				<div className={styles.wrapSpinner}>
+					<Spin size="large" />
+				</div>
 			)
 		}
 		</div>

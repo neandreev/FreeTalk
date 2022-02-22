@@ -1,8 +1,17 @@
-.dictionary .ant-table-checkbox-cell {
+.dictionary .ant-table-checkbox-cell,
+.dictionary .ant-table-cell.centered {
 	text-align: center;
 }
 
-.dictionary .ant-table-cell:last-child .ant-checkbox {
+.dictionary .ant-table-cell {
+	padding: 16px 12px;
+}
+
+.dictionary .ant-table-cell:first-child {
+	padding: 16px;
+}
+
+.dictionary .centered.ant-table-cell .ant-checkbox {
 	transform: matrix(1.35, 0, 0, 1.35, 0, 0);
 }
 
@@ -21,4 +30,8 @@
 .dictionary .ant-checkbox-checked .ant-checkbox-inner,
 .dictionary .ant-btn-primary {
 	background-color: var(--green);
+}
+
+.dictionary .app-btn._green._hover-red:hover {
+	background: red;
 }

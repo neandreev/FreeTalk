@@ -3,7 +3,9 @@ import cn from 'classnames';
 import firebase from 'firebase';
 import plural from 'plural-ru';
 import { FC, Key, MouseEventHandler, useEffect } from 'react';
-import { Button, Checkbox, Col, Row, Space, Table } from 'antd';
+import { Button, Checkbox, Col, Grid, Row, Space, Table } from 'antd';
+import { hyphenateSync as hyphenateRuSync } from 'hyphen/ru';
+import { hyphenateSync as hyphenateEnSync } from 'hyphen/en';
 
 import { IWord } from '../../../interfaces/word';
 import { TableRowSelection } from 'antd/lib/table/interface';
@@ -34,6 +36,8 @@ dayjs.locale('ru');
 dayjs.extend(localizedFormat);
 dayjs.extend(calendar);
 
+const { useBreakpoint } = Grid;
+
 const getWordsAmountPlural = (count: number) =>
 	plural(count, '%d слово', '%d слова', '%d слов');
 
@@ -45,6 +49,7 @@ export const Dictionary: FC = () => {
 	const user = auth!.user as firebase.User;
 
 	const dispatch = useAppDispatch();
+	const breakpoint = useBreakpoint();
 	const selectedRowKeys = useAppSelector(selectSelectedRows);
 
 	const { data: words, error, isLoading } = useGetUserWordsByUidQuery(user.uid);
@@ -107,12 +112,18 @@ export const Dictionary: FC = () => {
 			title: 'Слово',
 			dataIndex: 'translation',
 			key: 'translation',
+			render: (value: string, record: IWord) => (
+				<span>{hyphenateRuSync(record.translation)}</span>
+			),
 			sorter: (a, b) => a.translation.localeCompare(b.translation),
 		},
 		{
 			title: 'Перевод',
 			dataIndex: 'word',
 			key: 'word',
+			render: (value: string, record: IWord) => (
+				<span>{hyphenateEnSync(record.word)}</span>
+			),
 			sorter: (a, b) => a.word.localeCompare(b.word),
 		},
 		{
@@ -124,23 +135,67 @@ export const Dictionary: FC = () => {
 			render: (text: string, record: IWord) => (
 				<WordCategory record={record} handleUpdateWord={handleUpdateWord} />
 			),
+			showSorterTooltip: {
+				title: 'Сортировать категории слов в алфавитном порядке',
+			},
 			sorter: (a, b) => a.category.localeCompare(b.category),
+			responsive: ['md'],
+		},
+		{
+			title: 'Повторено',
+			dataIndex: 'completedTrains',
+			width: '110px',
+			key: 'completedTrains',
+			sortDirections: ['descend', 'ascend'],
+			render: (text: string, record: IWord) =>
+				getWordsRepeatsPlural(record.completedTrains),
+			sorter: (a, b) => a.completedTrains - b.completedTrains,
+			responsive: ['lg'],
+		},
+		{
+			title: 'Следующее повторение',
+			key: 'timeToTrain',
+			width: '130px',
+			render: (text: string, record: IWord) => {
+				const timeToTrainFormat = dayjs(record.timeToTrain).format('DD-MM-YYYY');
+
+				const isAvailableForTraining = record.timeToTrain < Date.now();
+				const timeToTrainStyles = cn({
+					[style.availableForTrain]: isAvailableForTraining,
+				});
+
+				return <span className={timeToTrainStyles}>{timeToTrainFormat}</span>;
+			},
+			showSorterTooltip: {
+				title: 'Сортировать слова в порядке доступности для тренировки',
+			},
+			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
+			responsive: ['lg'],
+		},
+		{
+			key: 'isLearned',
+			title: 'Изучено',
+			width: '30px',
+			className: 'centered',
+			render: (text: string, record: IWord) => (
+				<Checkbox
+					checked={record.isLearned}
+					onClick={() => handleLearnWord(record.id)}
+				/>
+			),
+			showSorterTooltip: {
+				title: 'Сортировать слова в порядке изученности',
+			},
+			sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
+			responsive: ['md'],
 		},
 		{
 			key: 'actions',
-			title: 'Изучено',
+			className: 'centered',
 			render: (text: string, record: IWord) => (
-				<Space size='large'>
-					<Checkbox
-						checked={record.isLearned}
-						onClick={() => handleLearnWord(record.id)}
-					/>
-					<DeleteOutlined
-						className=''
-						onClick={() => handleRemoveWord(record.id)}
-					/>
-				</Space>
+				<DeleteOutlined className='' onClick={() => handleRemoveWord(record.id)} />
 			),
+			responsive: ['sm'],
 		},
 	];
 
@@ -164,22 +219,57 @@ export const Dictionary: FC = () => {
 		);
 
 		return (
-			<p className={style.expandableParagraph}>
-				Слово верно повторено {getWordsRepeatsPlural(record.completedTrains)},
-				доступно для тренировки с {dayToTrain}
-			</p>
+			<>
+				<Row justify='space-between' gutter={[8, 8]} align='middle'  wrap={false}>
+					<Col style={{ textAlign: 'start' }} span={12}>
+						{!breakpoint.md && (
+							<Space>
+								<span>Категория:</span>
+								<WordCategory record={record} handleUpdateWord={handleUpdateWord} />
+							</Space>
+						)}
+					</Col>
+					<Col style={{ textAlign: 'start' }} span={12}>
+						{!breakpoint.md && (
+							<Space>
+								<span>Изучено:</span>
+								<Checkbox
+									checked={record.isLearned}
+									onClick={() => handleLearnWord(record.id)}
+								/>
+							</Space>
+						)}
+					</Col>
+				</Row>
+				{record.isLearned ? null : (
+					<Row justify='space-between' gutter={[8, 8]} align='middle'  wrap={false}>
+						<Col span={12}>
+							<span>
+								Кол-во повторений: {getWordsRepeatsPlural(record.completedTrains)}
+							</span>
+						</Col>
+						<Col span={12}>
+							<span>Следующее повторение: {dayToTrain}</span>
+						</Col>
+					</Row>
+				)}
+				{/* <p className={style.expandableParagraph}>
+					{hyphenateRuSync('Отмечено изученным, недоступно для тренировки')}
+				</p> */}
+			</>
 		);
 	};
 
 	const tableTitle = () => (
-		<Space>
+		<Space style={{ lineHeight: 1.3 }}>
 			<Button
 				onClick={handleRemoveMultipleWords}
 				disabled={selectedRowKeys.length === 0}
-				className='app-btn _green'
+				className='app-btn _green _hover-red'
 			>
-				Удалить слова
+				<DeleteOutlined style={{ color: 'white' }} />
 			</Button>
+
 			<Button
 				className='app-btn _green'
 				disabled={selectedRowKeys.length === 0}
@@ -200,12 +290,16 @@ export const Dictionary: FC = () => {
 					<h1 className={`page__title ${style.title}`}>Словарь</h1>
 					<hr />
 					<Table
-						bordered={true}
+						// bordered={true}
 						title={tableTitle}
 						loading={isLoading}
 						rowKey='id'
 						expandable={{
 							expandedRowRender: getExpandableInfo,
+							rowExpandable: (record) =>
+								((!breakpoint.lg as boolean) && !record.isLearned) ||
+								(!breakpoint.md as boolean),
+							showExpandColumn: !breakpoint.lg as boolean,
 						}}
 						rowSelection={rowSelection}
 						dataSource={words}
