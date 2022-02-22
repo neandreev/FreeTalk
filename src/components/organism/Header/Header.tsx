@@ -4,8 +4,9 @@ import { Link, useLocation } from 'react-router-dom';
 
 import { LoginModalForm } from '../LoginModalForm';
 import {ReactComponent as FreeTalk} from '../../../assets/FreeTalk.svg';
+import {ReactComponent as FreeTalkMobile} from '../../../assets/FreeTalkMobile.svg';
 
-import { Layout, Menu } from 'antd';
+import { Row, Col, Layout, Menu } from 'antd';
 
 import style from './Header.module.css';
 import './Header.css';
@@ -43,7 +44,8 @@ export const Header: FC = () => {
 			<div className='container'>
 				<div className={style.logoWrapper}>
 					<Link to='/' >
-            <FreeTalk height='63px' widht='200px'/>
+            <FreeTalk height='63px' widht='200px' className={style.logo}/>
+            <FreeTalkMobile height='63px' widht='93px' className={style.logoMobile}/>
 					</Link>
 				</div>
 				<div className={style.headerAction}>

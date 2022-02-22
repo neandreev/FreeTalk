@@ -12,12 +12,6 @@
 	float: left;
 }
 
-.logo {
-	width: 100px;
-	height: auto;
-	margin-right: 20px;
-}
-
 .headerAction {
 	height: 100%;
 	float: right;
@@ -50,4 +44,15 @@
 .authBtn:hover {
 	font-weight: 500;
 	color: var(--dark-text);
+}
+
+@media (max-width: 768px) {
+	.logo {
+		display: none;
+	}
+}
+@media (min-width: 769px) {
+	.logoMobile {
+		display: none;
+	}
 }

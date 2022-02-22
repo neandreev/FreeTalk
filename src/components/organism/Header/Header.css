@@ -36,3 +36,7 @@
 .ant-menu-item-selected a {
 	color: var(--dark-text)!important;
 }
+
+.ant-layout-header {
+	padding: 0!important;
+}
