@@ -3,6 +3,10 @@ import { useAuth } from '../../../hooks';
 
 import { Form, Input, Button, message } from 'antd';
 
+import firebase from 'firebase';
+
+import { errors } from '../../../constans/errors';
+
 interface IRegFormData {
 	email: string;
 	password: string;
@@ -21,7 +25,10 @@ export const RegistrationForm: FC<IRegistrationForm> = ({ onSuccess }) => {
 	const onFinish = useCallback((values: IRegFormData) => {
 		signup(values.email, values.password)
 			.then(() => onSuccess())
-			.catch((error) => message.error(error.message, 4));
+			.catch((error: firebase.FirebaseError) => {
+				const errorMessage = errors[error.code] || error.message;
+				message.error(errorMessage, 4);
+			});
 	}, []);
 
 	useEffect(() => {
@@ -56,7 +63,7 @@ export const RegistrationForm: FC<IRegistrationForm> = ({ onSuccess }) => {
 					},
 				]}
 			>
-				<Input />
+				<Input autoComplete="off"/>
 			</Form.Item>
 			<Form.Item
 				name='password'

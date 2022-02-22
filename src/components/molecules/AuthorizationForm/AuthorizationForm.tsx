@@ -3,6 +3,10 @@ import { useAuth } from '../../../hooks';
 
 import { Form, Input, Button, message } from 'antd';
 
+import firebase from 'firebase';
+
+import {errors} from '../../../constans/errors';
+
 interface IAuthFormData {
 	email: string;
 	password: string;
@@ -20,7 +24,10 @@ export const AuthorizationForm: FC<IAuthorizationForm> = ({ onSuccess }) => {
 	const onFinish = useCallback((values: IAuthFormData) => {
 		signin(values.email, values.password)
 			.then(() => onSuccess())
-			.catch((error) => message.error(error.message, 4));
+			.catch((error: firebase.FirebaseError) => {
+				const errorMessage = errors[error.code] || error.message;
+				message.error(errorMessage, 4);
+			});
 	}, []);
 
 
