@@ -71,11 +71,6 @@
 	color: white;
 }
 
-.app-btn._green:focus {
-	background: var(--dark-text);
-	color: white;
-}
-
 .app-btn._green:active {
 	background: var(--dark-text);
 	color: white;
@@ -99,11 +94,6 @@
 
 .app-btn._blue:disabled:hover {
 	background: var(--button-blue-disabled);
-	color: white;
-}
-
-.app-btn._blue:focus {
-	background: var(--dark-text);
 	color: white;
 }
 
