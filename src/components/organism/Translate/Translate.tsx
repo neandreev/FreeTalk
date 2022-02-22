@@ -71,17 +71,26 @@ export const Translate: FC<ITranslate> = ({ onStartTranslate }) => {
 
 	const handleAddWordToDictionary = useCallback<THandleAddWordToDictionary>((word) => {
 		if (!user) {
-			message.warning('Авторизуйтесь для добавления слова в словарь');
+			message.warning({
+				content: 'Авторизуйтесь для добавления слова в словарь',
+				duration: 2,
+			});
 			return;
 		}
 
 		if (checkDuplicateWords(word.translation, word.word, data)) {
-			message.warning('Такое слово уже есть в словаре');
+			message.warning({
+				content: 'Такое слово уже есть в словаре',
+				duration: 2,
+			});
 			return;
 		}
 
 		addWord({ word: word, userId: user.uid });
-		message.success('Добавлено новое слово');
+		message.success({
+			content:'Добавлено новое слово',
+			duration: 2,
+		});
 	}, [user, data]);
 
 
@@ -107,7 +116,10 @@ export const Translate: FC<ITranslate> = ({ onStartTranslate }) => {
 			setTranslateResponse(response);
 		} else {
 			setTranslateError(true);
-			message.warning('Перевод не найден. Попробуйте другое слово');
+			message.warning({
+				content: 'Перевод не найден. Попробуйте другое слово',
+				duration: 2,
+			});
 		}
 
 		setIsLoading(false);
