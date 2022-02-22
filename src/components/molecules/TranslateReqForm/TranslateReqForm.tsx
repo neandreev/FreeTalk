@@ -67,7 +67,6 @@ export const TranslateReqForm: FC<ITranslateReqForm> = ({ onSubmitForm, disabled
 					autoComplete="off"
 				/>
 			</Form.Item>
-			<Button style={{display: 'none'}} htmlType='submit' />
 		</Form>
 	);
 };
