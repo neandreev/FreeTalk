@@ -12,6 +12,8 @@
 }
 
 .info a {
+	min-width: 15px;
+	text-align: center;
 	text-transform: uppercase;
 	font-weight: 400;
 	color: var(--blue);

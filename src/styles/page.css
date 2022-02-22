@@ -41,8 +41,21 @@ hr {
 	min-height: calc(100vh - 64px - 73px);
 }
 
+.ant-card-cover img {
+	border-top-left-radius: 5px!important;
+	border-top-right-radius: 5px!important;
+}
+
 .ant-card.ant-card-bordered {
-	border-radius: 7px;
+	border-radius: 5px;
+}
+
+.ant-card-bordered .ant-card-cover {
+	margin: 0!important;
+}
+
+.ant-card-body {
+	padding: 24px 12px!important;
 }
 
 .ant-pagination-prev,
