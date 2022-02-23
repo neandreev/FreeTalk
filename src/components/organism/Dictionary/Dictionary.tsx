@@ -142,37 +142,6 @@ export const Dictionary: FC = () => {
 			responsive: ['md'],
 		},
 		{
-			title: 'Повторено',
-			dataIndex: 'completedTrains',
-			width: '110px',
-			key: 'completedTrains',
-			sortDirections: ['descend', 'ascend'],
-			render: (text: string, record: IWord) =>
-				getWordsRepeatsPlural(record.completedTrains),
-			sorter: (a, b) => a.completedTrains - b.completedTrains,
-			responsive: ['lg'],
-		},
-		{
-			title: 'Следующее повторение',
-			key: 'timeToTrain',
-			width: '130px',
-			render: (text: string, record: IWord) => {
-				const timeToTrainFormat = dayjs(record.timeToTrain).format('DD-MM-YYYY');
-
-				const isAvailableForTraining = record.timeToTrain < Date.now();
-				const timeToTrainStyles = cn({
-					[style.availableForTrain]: isAvailableForTraining,
-				});
-
-				return <span className={timeToTrainStyles}>{timeToTrainFormat}</span>;
-			},
-			showSorterTooltip: {
-				title: 'Сортировать слова в порядке доступности для тренировки',
-			},
-			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
-			responsive: ['lg'],
-		},
-		{
 			key: 'isLearned',
 			title: 'Изучено',
 			width: '30px',
@@ -188,6 +157,47 @@ export const Dictionary: FC = () => {
 			},
 			sorter: (a, b) => (a.isLearned === b.isLearned ? 0 : a.isLearned ? -1 : 1),
 			responsive: ['md'],
+		},
+		{
+			title: 'Повторено',
+			dataIndex: 'completedTrains',
+			width: '110px',
+			key: 'completedTrains',
+			sortDirections: ['descend', 'ascend'],
+			render: (text: string, record: IWord) => {
+				if (record.isLearned) return null;
+				const completedTrainsStyles = cn({
+					[style.green]: record.completedTrains >= 7,
+				});
+				return (
+					<span className={completedTrainsStyles}>
+						{getWordsRepeatsPlural(record.completedTrains)}
+					</span>
+				);
+			},
+			sorter: (a, b) => a.completedTrains - b.completedTrains,
+			responsive: ['lg'],
+		},
+		{
+			title: 'Доступно в тренировке',
+			key: 'timeToTrain',
+			width: '130px',
+			render: (text: string, record: IWord) => {
+				if (record.isLearned) return null;
+				const timeToTrainFormat = dayjs(record.timeToTrain).format('DD-MM-YYYY');
+
+				const isAvailableForTraining = record.timeToTrain < Date.now();
+				const timeToTrainStyles = cn({
+					[style.green]: isAvailableForTraining,
+				});
+
+				return <span className={timeToTrainStyles}>{timeToTrainFormat}</span>;
+			},
+			showSorterTooltip: {
+				title: 'Сортировать слова в порядке доступности для тренировки',
+			},
+			sorter: (a, b) => a.timeToTrain - b.timeToTrain,
+			responsive: ['lg'],
 		},
 		{
 			key: 'actions',
@@ -212,7 +222,7 @@ export const Dictionary: FC = () => {
 		const isAvailableForTraining = record.timeToTrain < Date.now();
 
 		const dayToTrainStyles = cn({
-			[style.availableForTrain]: isAvailableForTraining,
+			[style.green]: isAvailableForTraining,
 		});
 		const dayToTrain = (
 			<span className={dayToTrainStyles}>{timeToTrainFormat}</span>
@@ -220,7 +230,7 @@ export const Dictionary: FC = () => {
 
 		return (
 			<>
-				<Row justify='space-between' gutter={[8, 8]} align='middle'  wrap={false}>
+				<Row justify='space-between' gutter={[8, 8]} align='middle' wrap={false}>
 					<Col style={{ textAlign: 'start' }} span={12}>
 						{!breakpoint.md && (
 							<Space>
@@ -242,20 +252,17 @@ export const Dictionary: FC = () => {
 					</Col>
 				</Row>
 				{record.isLearned ? null : (
-					<Row justify='space-between' gutter={[8, 8]} align='middle'  wrap={false}>
+					<Row justify='space-between' gutter={[8, 8]} align='middle' wrap={false}>
 						<Col span={12}>
 							<span>
 								Кол-во повторений: {getWordsRepeatsPlural(record.completedTrains)}
 							</span>
 						</Col>
 						<Col span={12}>
-							<span>Следующее повторение: {dayToTrain}</span>
+							<span>Доступно в тренировке с: {dayToTrain}</span>
 						</Col>
 					</Row>
 				)}
-				{/* <p className={style.expandableParagraph}>
-					{hyphenateRuSync('Отмечено изученным, недоступно для тренировки')}
-				</p> */}
 			</>
 		);
 	};
@@ -290,7 +297,6 @@ export const Dictionary: FC = () => {
 					<h1 className={`page__title ${style.title}`}>Словарь</h1>
 					<hr />
 					<Table
-						// bordered={true}
 						title={tableTitle}
 						loading={isLoading}
 						rowKey='id'
