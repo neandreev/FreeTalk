@@ -1,8 +1,6 @@
 import { FC } from 'react';
 
-import { Button } from 'antd';
-
-import style from './RepeatTraining.module.css';
+import { Button, Space } from 'antd';
 
 interface IRepeatTraining {
 	isCompleted: boolean;
@@ -12,12 +10,12 @@ interface IRepeatTraining {
 export const RepeatTraining: FC<IRepeatTraining> = (props) => (
 	<>
 		{props.isCompleted ? (
-			<div className={style.repeatTraining}>
+			<Space>
 				<span>Вы можете начать тренировку заново</span>
 				<Button className='app-btn _green' onClick={props.handleReset}>
 					Вернуться к тренировке
 				</Button>
-			</div>
+			</Space>
 		) : null}
 	</>
 );

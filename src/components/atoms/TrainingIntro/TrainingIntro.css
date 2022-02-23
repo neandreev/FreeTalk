@@ -1,0 +1,4 @@
+._disabled {
+	background-color: var(--button-blue-disabled)!important;
+	color: #fff;
+}

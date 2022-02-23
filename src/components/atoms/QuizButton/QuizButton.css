@@ -2,16 +2,8 @@
 	padding: 12px;
 }
 
-.quizButton .ant-card-cover img {
-	border-radius: 7px 7px 0 0;
-}
-
 .quizButton.ant-card-bordered .ant-card-cover {
 	margin: 0
-}
-
-.quizButton {
-	/* max-width: 200px; */
 }
 
 .quiz .quizButton_wrong {

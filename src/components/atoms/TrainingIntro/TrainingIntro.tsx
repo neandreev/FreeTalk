@@ -1,6 +1,9 @@
 import { FC, MouseEventHandler } from 'react';
 
-import { Spin, Button } from 'antd';
+import { Spin, Button, Card, Tooltip, Row, Col } from 'antd';
+
+import style from './TrainingIntro.module.css';
+import './TrainingIntro.css';
 
 interface ITrainingIntro {
 	isDataPrepared: boolean;
@@ -8,23 +11,65 @@ interface ITrainingIntro {
 	handleStart: MouseEventHandler;
 }
 
-export const TrainingIntro: FC<ITrainingIntro> = (props) => (
-	<div>
-		{props.isDataPrepared ? (
-			props.isTrainingAvailable ? (
-				<div>Вы можете начать тренировку</div>
-			) : (
-				<div>
-					Вы не можете начать тренировку, так как у вас недостаточно доступных для
-					повторения слов в словаре (менее 10 штук)
-				</div>
-			)
+const TrainingStartButton: FC<Omit<ITrainingIntro, 'isDataPrepared'>> = (
+	props
+) => (
+	<>
+		{props.isTrainingAvailable ? (
+			<Button
+				className={'app-btn _green'}
+				type='primary'
+				onClick={props.handleStart}
+			>
+				Начать тренировку
+			</Button>
 		) : (
-			<Spin />
+			<Tooltip
+				title='Вы не можете начать тренировку, так как у вас недостаточно доступных для
+			повторения слов в словаре'
+			>
+				<Button className={'app-btn _green _disabled'}>Начать тренировку</Button>
+			</Tooltip>
 		)}
-
-		<Button className={'app-btn _green'} type='primary' onClick={props.handleStart} disabled={!props.isTrainingAvailable}>
-			Начать тренировку
-		</Button>
-	</div>
+	</>
 );
+
+export const TrainingIntro: FC<ITrainingIntro> = (props) => {
+	return (
+		<Card>
+			<Row justify='center'>
+				<Col className={style.col}>
+					{props.isDataPrepared ? (
+						<div>
+							<img
+								className={style.img}
+								src='https://englex.ru/app/uploads/english-for-trainers-and-athletes.png'
+								alt=''
+							/>
+						</div>
+					) : (
+						<Spin />
+					)}
+				</Col>
+			</Row>
+			<Row>
+				<Col className={style.col}>
+					<p className={`${style.description} ${style.center}`}>
+						Данная тренировка основана на принципах интервального повторения:
+					</p>
+					<p className={style.description}>
+						Вам будет предложено перевести слово из вашего словаря. В случая
+						правильного перевода слово из словаря появится в следующей тренировке
+						через некоторое время. Чем больше вы правильно переведете слово - тем реже
+						оно будет появляться в вашей тренировке.
+					</p>
+				</Col>
+			</Row>
+			<Row justify='center'>
+				<Col>
+					<TrainingStartButton {...props} />
+				</Col>
+			</Row>
+		</Card>
+	);
+};

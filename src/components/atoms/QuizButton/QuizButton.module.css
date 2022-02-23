@@ -23,7 +23,7 @@
 .imgContainer {
 	overflow: hidden;
 	height: 130px;
-	border-radius: 7px 7px 0 0;
+	border-radius: 4px 4px 0 0;
 
 	transition-duration: 0.3s;
 	transition-timing-function: ease-out;

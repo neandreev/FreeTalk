@@ -52,14 +52,12 @@ export const QuizQuestions: FC = () => {
 	);
 
 	return (
-		<div>
-			<Card title={QuestionTitle}>
-				<QuizList variants={shuffledVariants} />
-				<QuizResponse
-					wasAnswered={wasAnswered}
-					handleNextQuestion={handleNextQuestionLink}
-				/>
-			</Card>
-		</div>
+		<Card title={QuestionTitle}>
+			<QuizList variants={shuffledVariants} />
+			<QuizResponse
+				wasAnswered={wasAnswered}
+				handleNextQuestion={handleNextQuestionLink}
+			/>
+		</Card>
 	);
 };
