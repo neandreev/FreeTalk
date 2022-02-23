@@ -17,6 +17,7 @@
 	float: right;
 	display: flex;
 	align-items: center;
+	padding-right: 10px;
 }
 
 .navigation {
